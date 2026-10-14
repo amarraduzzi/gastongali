@@ -165,23 +165,25 @@ section{position:relative}
 
 /* Collection horizontal */
 .collection{background:var(--ink);color:var(--cream);height:340vh}
-.collection .sticky{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+.collection .sticky{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding-top:clamp(70px,9svh,96px);padding-bottom:16px}
+.collection .h2{font-size:clamp(34px,min(6vw,8.5svh),96px)}
+.collection .lead{margin-top:10px}
 .collection .head{padding:0 clamp(16px,4vw,56px);display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap}
 .collection .h2 em{color:var(--gold-soft)}
 .collection .lead{color:#b9ad9f}
-.rail{display:flex;gap:22px;padding:48px clamp(16px,4vw,56px) 0;will-change:transform}
-.card{flex:none;width:clamp(260px,26vw,360px);}
+.rail{display:flex;gap:22px;padding:clamp(20px,4svh,48px) clamp(16px,4vw,56px) 0;will-change:transform}
+.card{flex:none;width:max(190px,min(clamp(240px,26vw,360px),calc((100svh - 340px)*.64)))}
 .card .tile{position:relative;aspect-ratio:4/5;border-radius:26px;overflow:hidden;background:var(--t);isolation:isolate;transition:transform .6s var(--ease)}
 .card .tile::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 56%,color-mix(in srgb,var(--t) 30%,#fff),transparent 75%);z-index:-1}
 .card .tile img{position:absolute;left:50%;top:50%;height:132%;width:auto;max-width:none;transform:translate(-50%,-50%);mix-blend-mode:multiply;filter:contrast(1.22) brightness(1.1) saturate(1.1);
   -webkit-mask-image:radial-gradient(ellipse 46% 40% at 50% 54%,#000 52%,transparent 100%);mask-image:radial-gradient(ellipse 46% 40% at 50% 54%,#000 52%,transparent 100%);transition:transform .9s var(--ease)}
 .card:hover .tile img{transform:translate(-50%,-53%) scale(1.06) rotate(-3deg)}
 .card .tag{position:absolute;top:16px;left:16px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:#fff;background:rgba(0,0,0,.18);padding:7px 12px;border-radius:999px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.card h4{font-family:var(--serif);font-weight:400;font-size:26px;margin-top:18px;line-height:1.1}
+.card h4{font-family:var(--serif);font-weight:400;font-size:clamp(20px,2.8svh,26px);margin-top:14px;line-height:1.1}
 .card .sub{color:#a99d8f;font-size:14px;margin-top:4px}
-.card-end{flex:none;width:clamp(260px,26vw,360px);aspect-ratio:4/5;border-radius:26px;border:1px solid #3a322a;display:flex;flex-direction:column;justify-content:space-between;padding:30px}
+.card-end{flex:none;width:max(190px,min(clamp(240px,26vw,360px),calc((100svh - 340px)*.64)));aspect-ratio:4/5;border-radius:26px;border:1px solid #3a322a;display:flex;flex-direction:column;justify-content:space-between;padding:30px}
 .card-end h4{font-family:var(--serif);font-weight:400;font-size:34px;line-height:1.05}
-.progress{margin:40px clamp(16px,4vw,56px) 0;height:1px;background:#3a322a;position:relative}
+.progress{margin:clamp(16px,3svh,40px) clamp(16px,4vw,56px) 0;height:1px;background:#3a322a;position:relative}
 .progress i{position:absolute;inset:0 auto 0 0;width:0;background:var(--gold-soft)}
 
 /* Héritage */
@@ -712,7 +714,7 @@ const C=[
 const rail=document.getElementById('rail');
 rail.innerHTML=C.map(([img,n,cat,t])=>`
   <article class="card"><div class="tile" style="--t:${t}"><span class="tag">${cat}</span><img src="${IMG+img}" alt="${n}" loading="lazy"></div>
-  <h4>${n}</h4><div class="sub">Sur commande, à l’unité ou en plateau</div></article>`).join('')+
+  <h4>${n}</h4><div class="sub">À l’unité ou en plateau</div></article>`).join('')+
   `<div class="card-end"><div><div class="eyebrow" style="color:var(--gold-soft)">Et bien plus</div><h4 style="margin-top:16px">Viennoiserie, chocolat, épicerie fine, lunch box.</h4></div><a class="btn btn-gold" href="#devis">Commander</a></div>`;
 const coll=document.getElementById('collection');
 const prog=document.getElementById('prog');
