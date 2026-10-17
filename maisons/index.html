@@ -7,7 +7,9 @@
 <nav class="switch" aria-label="Nos trois maisons"><a href="patisserie.html">Pâtisserie</a><a href="cafe.html">Café</a><a href="receptions.html">Réceptions</a></nav>
 <div class="cta"><a class="btn" href="https://wa.me/212661392231" target="_blank" rel="noopener">Nous contacter</a></div></header>
 <main><div class="doors-wrap"><div class="doors-head"><div class="rule"><i></i><span>Hay Riad · Rabat</span><i></i></div>
-<h1><span class="sr">Gaston Gali, pâtisserie, café et réceptions à Rabat. </span>Une maison marocaine, <em>trois univers.</em></h1><svg class="m-orn" viewBox="0 0 170 66" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M3 63V30a22 22 0 0 1 44 0v33"/><path d="M63 63V30a22 22 0 0 1 44 0v33"/><path d="M123 63V30a22 22 0 0 1 44 0v33"/></svg></div>
+<h1><span class="sr">Gaston Gali, pâtisserie, café et réceptions à Rabat. </span>Une maison marocaine, <em>trois univers.</em></h1><div class="m-stage"><div class="m-arch" id="mArch"><img src="../img/photo/finesse.webp" alt="" class="on"><img src="../img/photo/viennoiserie-cafe.webp" alt=""><img src="../img/photo/jardin.webp" alt=""></div>
+<div class="m-cap" aria-live="off"><span class="m-no">01</span><span class="m-name">La Pâtisserie</span></div>
+<div class="m-dots" role="tablist" aria-label="Aperçu des trois maisons"><button type="button" class="on" aria-label="La Pâtisserie"></button><button type="button" aria-label="Le Café"></button><button type="button" aria-label="Les Réceptions"></button></div></div></div>
 <div class="doors">
 <a class="door" href="patisserie.html"><img src="../img/photo/finesse.webp" alt="" loading="eager"><span class="tag">Boutique</span><div class="in"><span class="no">01</span><h2>La Pâtisserie</h2><p>Entremets, viennoiseries, coffrets marocains et pièces montées. Pour vous, ou pour offrir.</p><span class="go">Découvrir la vitrine <svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path d="M0 5h16M12 1l4 4-4 4" stroke="currentColor" stroke-width="1.2"/></svg></span></div></a>
 <a class="door" href="cafe.html"><img src="../img/photo/viennoiserie-cafe.webp" alt="" loading="eager"><span class="tag">Sur place</span><div class="in"><span class="no">02</span><h2>Le Café</h2><p>Petit-déjeuners, brunchs, plats et douceurs, au cœur de Hay Riad.</p><span class="go">Voir la carte <svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path d="M0 5h16M12 1l4 4-4 4" stroke="currentColor" stroke-width="1.2"/></svg></span></div></a>
@@ -44,5 +46,16 @@ function pan(){t=0;if(!mq.matches)return;const vh=innerHeight;
   doors.forEach((d,i)=>{const r=d.getBoundingClientRect();const p=Math.min(1,Math.max(0,(vh-r.top)/(vh+r.height)));
     d.querySelector('img').style.objectPosition=(R[i][0]+(R[i][1]-R[i][0])*p).toFixed(1)+'% 50%'})}
 addEventListener('scroll',()=>{if(!t)t=requestAnimationFrame(pan)},{passive:true});addEventListener('resize',pan);pan();
+})();
+
+/* Mobiele opening: boogvenster met rustige fade tussen de drie maisons */
+(()=>{const arch=document.getElementById('mArch');if(!arch)return;
+const imgs=[...arch.querySelectorAll('img')],dots=[...document.querySelectorAll('.m-dots button')],no=document.querySelector('.m-no'),nm=document.querySelector('.m-name');
+const N=[['01','La Pâtisserie'],['02','Le Café'],['03','Les Réceptions']];let i=0,timer;
+const reduceM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function show(k){i=k;imgs.forEach((m,j)=>m.classList.toggle('on',j===k));dots.forEach((d,j)=>d.classList.toggle('on',j===k));
+ const c=document.querySelector('.m-cap');c.classList.add('sw');setTimeout(()=>{no.textContent=N[k][0];nm.textContent=N[k][1];c.classList.remove('sw')},350)}
+function play(){clearInterval(timer);if(reduceM)return;timer=setInterval(()=>{if(!document.hidden)show((i+1)%3)},4800)}
+dots.forEach((d,k)=>d.addEventListener('click',()=>{show(k);play()}));play();
 })();
 </script></body></html>
