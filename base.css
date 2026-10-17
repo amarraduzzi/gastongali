@@ -260,54 +260,53 @@ footer{background:var(--ink);color:var(--ivory);padding:clamp(60px,8vw,110px) 0 
 @media (max-width:820px){.doors-head::before{display:none}}
 .mgroup .sprig,.mgroup:nth-of-type(odd) .sprig,.mgroup:nth-of-type(even) .sprig{left:auto;right:2%;transform:none}
 @media (max-width:820px){.mgroup .sprig{opacity:.08;width:110px}}
-/* ===== Mobiel: homepage met zwevende gebakjes en over elkaar schuivende kaarten =====
+/* ===== Mobiel: chique keuzepagina met drie kleurige hoofdstukken en boogfoto's =====
    Alles hieronder werkt alleen onder 820 px. Desktop blijft ongewijzigd. */
-.floaters,.m-marquee,.m-dots{display:none}
-@keyframes m-enter{from{opacity:0;transform:translateY(-70px) rotate(calc(var(--r) - 28deg)) scale(.6)}to{opacity:1;transform:rotate(var(--r)) scale(1)}}
-@keyframes m-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(calc(var(--bob,10px) * -1))}}
-@keyframes m-twinkle{0%,100%{opacity:.12;transform:scale(.6)}50%{opacity:.95;transform:scale(1.15)}}
-@keyframes m-cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-@keyframes m-run{to{transform:translateX(-50%)}}
+.m-orn{display:none}
+@keyframes m-draw{to{stroke-dashoffset:0}}
+@keyframes m-shine{0%,100%{background-position:100% 50%}50%{background-position:0% 50%}}
 @media (max-width:820px){
   .three{display:none}
   .doors-wrap{background:var(--ink)}
 
-  /* hero */
-  .doors-head{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;padding:calc(var(--nav-h) + 20px) 22px 66px;background:radial-gradient(90% 46% at 50% 40%,rgba(179,160,108,.30),rgba(12,11,10,0) 70%),radial-gradient(60% 30% at 12% 82%,rgba(133,117,78,.2),rgba(12,11,10,0) 70%),var(--ink)}
+  /* kop */
+  .doors-head{min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:visible;padding:calc(var(--nav-h) + 44px) 24px 58px;background:radial-gradient(80% 60% at 50% 34%,rgba(179,160,108,.17),rgba(12,11,10,0) 70%),var(--ink)}
   .doors-head .rule{position:relative;z-index:2}
-  .doors-head h1{position:relative;z-index:2;font-size:clamp(38px,11.5vw,50px);line-height:1.02;margin-top:14px}
-  .doors-head::after{content:"";position:absolute;left:50%;bottom:16px;width:1px;height:36px;background:linear-gradient(var(--gold-xl),rgba(220,203,156,0));animation:m-cue 2.4s ease-in-out infinite}
-  .floaters{display:block;position:absolute;inset:var(--nav-h) 0 245px 0;opacity:var(--fade,1);pointer-events:none}
-  .fl{position:absolute;left:var(--x);top:var(--y);width:var(--w);z-index:var(--z,1);transform:translate3d(var(--tx,0px),var(--ty,0px),0) rotate(var(--rr,0deg));will-change:transform}
-  .fl .bob{display:block;animation:m-bob var(--bt,7s) ease-in-out var(--bd,0s) infinite}
-  .fl img{display:block;width:100%;height:auto;opacity:0;filter:blur(var(--bl,0px)) drop-shadow(0 18px 24px rgba(0,0,0,.6))}
-  .live .fl img{animation:m-enter 1.2s var(--ease) var(--del,0s) both}
-  .sp{position:absolute;left:var(--x);top:var(--y);width:var(--s,3px);height:var(--s,3px);border-radius:50%;background:var(--gold-xl);box-shadow:0 0 8px 1px rgba(220,203,156,.7);opacity:.12;animation:m-twinkle var(--t,3.4s) ease-in-out var(--sd,0s) infinite}
+  .doors-head h1{position:relative;z-index:2;font-size:clamp(36px,10.6vw,46px);line-height:1.04;margin-top:16px}
+  .doors-head h1 em{background:linear-gradient(100deg,#b3a06c 0%,#b3a06c 30%,#fff3cf 50%,#b3a06c 70%,#b3a06c 100%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:m-shine 7s ease-in-out infinite}
+  .m-orn{display:block;width:148px;height:auto;margin-top:34px;color:var(--gold-l)}
+  .m-orn path{stroke-dasharray:240;stroke-dashoffset:0}
+  .doors-head.pre .m-orn path{stroke-dashoffset:240}
+  .doors-head.live .m-orn path{animation:m-draw 2.1s var(--ease) forwards}
+  .doors-head.live .m-orn path:nth-child(2){animation-delay:.35s}
+  .doors-head.live .m-orn path:nth-child(3){animation-delay:.7s}
 
-  /* lopende band */
-  .m-marquee{display:block;position:relative;z-index:6;overflow:hidden;background:var(--ink);border-top:1px solid rgba(179,160,108,.35);border-bottom:1px solid rgba(179,160,108,.35)}
-  .m-marquee div{display:flex;width:max-content;animation:m-run 26s linear infinite}
-  .m-marquee span{font-family:var(--serif);font-style:italic;font-size:24px;line-height:1;padding:15px 0;color:var(--gold-xl);white-space:nowrap}
-  .m-marquee span::after{content:"\2726";font-style:normal;font-size:12px;margin:0 22px;color:var(--gold-l);vertical-align:middle}
+  /* drie hoofdstukken, elk met eigen kleur zodat de keuze duidelijk is */
+  .doors{display:block;height:auto;min-height:0;padding:0}
+  .doors .door,.doors:hover .door,.doors .door:hover{
+    --bg:#F6F1E7;--fg:#0C0B0A;--acc:#85754E;--soft:#554e43;
+    position:relative;top:auto;display:flex;flex-direction:column;align-items:center;text-align:center;flex:none;height:auto;min-height:0;overflow:hidden;margin:0;padding:60px 26px 66px;background:var(--bg);color:var(--fg);transform:none}
+  .doors .door:nth-child(2){--bg:#1D2216;--fg:#F8F3E7;--acc:#A9B684;--soft:#d3d9bf}
+  .doors .door:nth-child(3){--bg:#141210;--fg:#F6F1E7;--acc:#B3A06C;--soft:#cdc4b0}
+  .doors .door+.door{border-top:1px solid rgba(179,160,108,.45)}
+  .doors .door::after{display:none}
+  .doors .door .in{display:contents}
+  .doors .door .no{order:-2;font-size:48px;line-height:1;color:var(--acc);text-shadow:none;margin-bottom:26px}
+  .doors .door .no::after{content:"";display:block;width:1px;height:28px;margin:18px auto 0;background:var(--acc);opacity:.55}
+  .doors .door>img,.doors .door:hover>img{order:-1;position:relative;inset:auto;display:block;width:min(70vw,264px);height:auto;aspect-ratio:6/7;object-fit:cover;object-position:50% 50%;transform:none;border-radius:999px 999px 0 0;box-shadow:0 0 0 7px var(--bg),0 0 0 8px var(--acc)}
+  .doors .door:nth-child(2)>img{object-position:78% 50%}
+  .doors .door .tag{display:block;position:static;order:0;margin-top:38px;padding:0;border:0;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--acc)}
+  .doors .door h2{order:1;font-size:40px;line-height:1.05;margin-top:12px;color:var(--fg);text-shadow:none}
+  .doors .door p,.doors .door:hover p{order:2;opacity:1;max-height:none;max-width:30ch;margin:16px auto 0;font-size:14.5px;line-height:1.7;color:var(--soft);text-shadow:none}
+  .doors .door .go{order:3;display:inline-flex;align-items:center;gap:12px;margin-top:30px;padding:15px 26px;border:1px solid var(--acc);border-radius:999px;color:var(--fg);font-size:11px;letter-spacing:.26em;text-transform:uppercase}
 
-  /* voortgangspuntjes */
-  .m-dots{display:flex;flex-direction:column;gap:10px;position:fixed;right:9px;top:50%;transform:translateY(-50%);z-index:55;opacity:0;transition:opacity .4s}
-  .m-dots.on{opacity:1}
-  .m-dots i{width:5px;height:5px;border-radius:3px;background:rgba(246,241,231,.45);transition:height .4s var(--ease),background .4s}
-  .m-dots i.on{height:22px;background:var(--gold-xl)}
-
-  /* drie kaarten die over elkaar schuiven: foto bovenaan, tekst in effen zwart blok */
-  .doors{display:block;height:auto;min-height:0;padding-top:0}
-  .doors .door,.doors:hover .door,.doors .door:hover{position:sticky;top:var(--nav-h);display:flex;flex-direction:column;flex:none;height:calc(100svh - var(--nav-h));min-height:0;overflow:hidden;margin:0;background:var(--ink);transform:scale(calc(1 - .07 * var(--c,0)));transform-origin:50% 0;will-change:transform}
-  .doors .door:nth-child(1){z-index:1}
-  .doors .door:nth-child(2){z-index:2;border-radius:22px 22px 0 0;box-shadow:0 -16px 34px rgba(0,0,0,.55)}
-  .doors .door:nth-child(3){z-index:3;border-radius:22px 22px 0 0;box-shadow:0 -16px 34px rgba(0,0,0,.55)}
-  .doors .door::after{content:"";display:block;position:absolute;inset:0;z-index:4;background:#000;opacity:calc(var(--c,0) * .65);pointer-events:none}
-  .doors .door>img,.doors .door:hover>img{position:relative;inset:auto;flex:1 1 0;min-height:0;width:100%;height:auto;object-fit:cover;transform:scale(var(--z,1))}
-  .doors .door:nth-child(2)>img{object-position:68% center}
-  .doors .door .in{position:relative;left:0;right:0;bottom:auto;flex:none;padding:20px 24px 30px;background:var(--ink)}
-  .doors .door .no{text-shadow:none}
-  .doors .door h2{font-size:36px;text-shadow:none}
-  .doors .door p,.doors .door:hover p{opacity:1;max-height:none;max-width:none;font-size:14px;line-height:1.65;color:#ece5d5;text-shadow:none}
-  .doors .door .go{margin-top:16px}
+  /* boog "opent" zich wanneer het hoofdstuk in beeld komt (alleen als het script actief is) */
+  .doors.arm .door:not(.seen)>img{clip-path:inset(100% 0 0 0)}
+  .doors.arm .door.seen>img{clip-path:inset(-12px -12px -12px -12px);transition:clip-path 1.5s var(--ease)}
+  .doors.arm .door:not(.seen) .no,.doors.arm .door:not(.seen) .tag,.doors.arm .door:not(.seen) h2,.doors.arm .door:not(.seen) p,.doors.arm .door:not(.seen) .go{opacity:0;transform:translateY(14px)}
+  .doors.arm .door.seen .no,.doors.arm .door.seen .tag,.doors.arm .door.seen h2,.doors.arm .door.seen p,.doors.arm .door.seen .go{transition:opacity 1s var(--ease) .5s,transform 1s var(--ease) .5s}
+}
+@media (max-width:820px) and (prefers-reduced-motion:reduce){
+  .doors.arm .door>img{clip-path:none!important}
+  .doors-head h1 em{animation:none}
 }
