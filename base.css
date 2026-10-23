@@ -367,3 +367,16 @@ html,body{overflow-x:clip}
   .m-arch img,.m-arch img:nth-child(2){object-position:50% 50%}
   .m-cap{display:none}
 }
+
+/* ===== v2.1 : effen zwart, compacte header ===== */
+.doors-head::before{display:none}
+@media (max-width:820px){
+  :root{--nav-h:84px}
+  .nav{gap:4px;padding:8px 14px 4px;transition:transform .35s var(--ease)}
+  .nav .logo img{height:30px}
+  .switch a{padding:8px 2px}
+  .nav.min{transform:translateY(-42px)}
+  .doors-head{background:var(--ink)}
+  .m-arch{box-shadow:0 0 0 7px var(--ink),0 0 0 8px var(--gold-l)}
+}
+@media (max-width:820px){.doors-head h1{text-shadow:none}}

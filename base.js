@@ -61,3 +61,9 @@ if(typeEl){
   upd();
 }
 })();
+
+/* header: logorij klapt in bij naar beneden scrollen (mobiel) */
+(()=>{const nav=document.querySelector('.nav');if(!nav)return;let y=scrollY,t=0;
+const f=()=>{t=0;const c=scrollY;if(!matchMedia('(max-width:820px)').matches){nav.classList.remove('min');y=c;return}
+ if(c<60)nav.classList.remove('min');else if(c>y+6)nav.classList.add('min');else if(c<y-6)nav.classList.remove('min');y=c};
+addEventListener('scroll',()=>{if(!t)t=requestAnimationFrame(f)},{passive:true})})();
