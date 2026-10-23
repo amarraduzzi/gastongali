@@ -1,0 +1,15 @@
+# Gaston Gali
+
+> Gaston Gali est une maison de pâtisserie, café et traiteur située à Hay Riad, Rabat (Maroc). Pâtisserie fine, pâtisserie marocaine, viennoiseries, brunch, et traiteur pour mariages, séminaires et réceptions partout au Maroc.
+
+- Adresse : Hay Riad, Rabat, Maroc
+- Téléphone : +212 661 404 880
+- WhatsApp : +212 661 392 231
+- E-mail : contact@gastongali.ma
+- Déplacements : partout au Maroc selon l'événement
+
+## Pages
+- [Accueil](https://gastongali.ma/): présentation de la maison et de ses trois univers
+- [Pâtisserie](https://gastongali.ma/patisserie): entremets, tartes, viennoiseries, croissant kunafa, pâtisserie marocaine, coffrets cadeaux
+- [Café](https://gastongali.ma/cafe): petit-déjeuner, brunch, plats salés, crêpes, jus et mocktails
+- [Réceptions](https://gastongali.ma/receptions): traiteur mariage, séminaires et entreprises, soirées VIP, pièces montées sur mesure, demande de devis
