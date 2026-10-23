@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" href="img/cut/pistache.webp">
+<link rel="preload" as="image" href="img/cut/pro-buche-pistache.webp">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -455,11 +455,11 @@ const $=id=>document.getElementById(id);
 
 /* hero */
 const P=[
-  ['Entremets pistache','pistache.webp','70%'],
-  ['Barre chocolat praliné','chocolat.webp','92%'],
-  ['Red velvet','velvet.webp','72%'],
+  ['Bûche pistache framboise','pro-buche-pistache.webp','70%'],
+  ['Entremets chocolat','pro-choco-mousse.webp','92%'],
+  ['Tarte framboise','pro-tarte-framboise.webp','72%'],
   ['Croissant kunafa pistache','croissant-pistache.webp','76%'],
-  ['Entremets vanille','vanille.webp','74%'],
+  ['Dôme exotique','pro-dome-mangue.webp','74%'],
 ];
 const stage=$('stage'),dock=$('dock'),cap=$('cap'),hero=document.querySelector('.hero');
 let cur=-1,timer,paused=false;
@@ -511,17 +511,17 @@ menu.querySelectorAll('a').forEach(a=>a.onclick=()=>{menu.classList.remove('open
 
 /* collection */
 const C=[
-  ['couronne.webp','Couronne caramel','Pâtisserie fine'],
-  ['pistache.webp','Entremets pistache','Pâtisserie fine'],
-  ['chocolat.webp','Barre chocolat praliné','Pâtisserie fine'],
-  ['velvet.webp','Red velvet','À la part'],
+  ['pro-fondant.webp','Gâteau moelleux','Pâtisserie fine'],
+  ['pro-buche-pistache.webp','Bûche pistache framboise','Pâtisserie fine'],
+  ['pro-choco-mousse.webp','Entremets chocolat','Pâtisserie fine'],
+  ['pro-tarte-framboise.webp','Tarte framboise','À la part'],
   ['croissant-pistache.webp','Croissant kunafa','Viennoiserie'],
-  ['eclair.webp','Barre caramel','Pâtisserie fine'],
-  ['tarte.webp','Tarte aux fruits secs','À la part'],
+  ['pro-opera.webp','Mille-feuille marbré','Pâtisserie fine'],
+  ['pro-tartelette-citron.webp','Tartelette citron','À la part'],
   ['pain-raisin.webp','Pain aux raisins','Viennoiserie'],
-  ['millecouches.webp','Mille-couches','À la part'],
+  ['pro-mille-feuille.webp','Millefeuille praliné','À la part'],
   ['choco-shell.webp','Viennoiserie chocolat','Viennoiserie'],
-  ['vanille.webp','Entremets vanille','Pâtisserie fine'],
+  ['pro-dome-mangue.webp','Dôme exotique','Pâtisserie fine'],
 ];
 const rail=$('rail');
 rail.innerHTML=C.map(([img,n,k],i)=>`<article class="cw"><div class="tile"><span class="k">${k}</span><img src="${IMG+img}" alt="${n}" loading="lazy"><span class="d">Découvrir</span></div><h4>${n}</h4><div class="sub">À l’unité ou en plateau</div></article>`).join('')+
