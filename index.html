@@ -7,7 +7,20 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="base.css"></head><body><div class="intro" id="intro" aria-hidden="true"><img src="../img/logo-light.svg" alt=""><i>Pâtisserie · Café · Réceptions</i></div><header class="nav"><a class="logo" href="/" aria-label="Gaston Gali, accueil"><img src="../img/logo-light.svg" alt="Gaston Gali" width="108" height="32"></a>
+<link rel="stylesheet" href="base.css"><style>
+.maison{padding:clamp(80px,10vw,140px) 0;background:var(--ivory)}
+.maison .g2{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(30px,7vw,110px);align-items:center}
+.maison .arch{width:min(78vw,380px);margin:0 auto;aspect-ratio:6/7;border-radius:999px 999px 0 0;overflow:hidden;box-shadow:0 0 0 7px var(--ivory),0 0 0 8px var(--gold)}
+.maison .arch img{width:100%;height:100%;object-fit:cover}
+.maison .mc{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,60px);margin-top:clamp(50px,7vw,90px)}
+.maison .mc div{border-top:1px solid var(--gold);padding-top:22px}
+.maison .mc h3{font-family:var(--serif);font-weight:500;font-size:30px;line-height:1.1}
+.maison .mc p{color:var(--muted);font-size:14px;margin-top:10px}
+.maison .q-it{font-family:var(--serif);font-style:italic;font-size:clamp(24px,2.6vw,34px);line-height:1.25;margin-top:26px;max-width:30ch}
+.maison .more{display:inline-block;margin-top:26px;font-size:14px;color:var(--gold);border-bottom:1px solid currentColor}
+@media (max-width:820px){.maison .g2,.maison .mc{grid-template-columns:1fr}.maison .g2{gap:44px}}
+</style>
+</head><body><div class="intro" id="intro" aria-hidden="true"><img src="../img/logo-light.svg" alt=""><i>Pâtisserie · Café · Réceptions</i></div><header class="nav"><a class="logo" href="/" aria-label="Gaston Gali, accueil"><img src="../img/logo-light.svg" alt="Gaston Gali" width="108" height="32"></a>
 <nav class="switch" aria-label="Nos trois maisons"><a href="/patisserie">Pâtisserie</a><a href="/cafe">Café</a><a href="/receptions">Réceptions</a></nav>
 <div class="cta"><a class="btn" href="https://wa.me/212661392231" target="_blank" rel="noopener">Nous contacter</a></div></header>
 <main><div class="doors-wrap"><div class="doors-head"><div class="rule"><i></i><span>Hay Riad · Rabat</span><i></i></div>
@@ -24,7 +37,14 @@
 <div class="col reveal"><div class="n">01</div><h3>La Pâtisserie</h3><p>Entremets, tartes, viennoiseries et pâtisserie marocaine, façonnés à la main. À l’unité, en plateau ou en coffret.</p><a href="/patisserie">La vitrine</a></div>
 <div class="col reveal"><div class="n">02</div><h3>Le Café</h3><p>Du petit-déjeuner au dessert : brunchs, plats mijotés, crêpes, gaufres et boissons maison.</p><a href="/cafe">La carte</a></div>
 <div class="col reveal"><div class="n">03</div><h3>Les Réceptions</h3><p>Mariages, séminaires, soirées VIP et pièces montées sur mesure, à Rabat et partout au Maroc.</p><a href="/receptions">Composer mon événement</a></div>
-</div></div></section></main><footer><div class="wrap"><div class="big"><img src="../img/logo-light.svg" alt="Gaston Gali" loading="lazy"></div>
+</div></div></section><section class="maison"><div class="wrap"><div class="g2"><figure class="arch reveal"><img src="../img/photo/jardin.webp" alt="Réception de mariage par Gaston Gali, traiteur à Rabat" loading="lazy"></figure>
+<div class="reveal"><div class="label">L’art de recevoir</div><h2 class="h2">Une maison née <em>autour de la fête.</em></h2>
+<p class="q-it">Au Maroc, une célébration se reconnaît d’abord par la qualité de l’accueil.</p>
+<p class="lead">Gaston Gali réunit une pâtisserie, un café et un traiteur à Hay Riad, à Rabat. Nous travaillons la table, le service et la mise en scène avec une exigence discrète, pour que chaque invité se sente attendu.</p>
+<a class="more" href="/receptions">Découvrir nos réceptions</a></div></div>
+<div class="mc"><div class="reveal"><h3>Notre histoire</h3><p>Gaston Gali est née d’une conviction simple : l’accueil fait la fête. Mariages, fêtes privées, soutenances, événements d’entreprise, buffets et open spaces : chaque format a ses codes et son énergie.</p></div>
+<div class="reveal"><h3>Notre vision</h3><p>Nous ne cherchons pas à impressionner par l’excès, mais à composer une expérience juste, élégante et sincère, avec un rythme fluide du premier invité au dernier.</p></div>
+<div class="reveal"><h3>L’art de recevoir</h3><p>Recevoir est un art profondément marocain : il demande du goût, de la mesure, de l’attention et beaucoup de respect. Des tables soignées, des créations gourmandes et un service attentif.</p></div></div></div></section></main><footer><div class="wrap"><div class="big"><img src="../img/logo-light.svg" alt="Gaston Gali" loading="lazy"></div>
 <div class="fgrid"><div><h5>La Maison</h5><p style="opacity:.8;max-width:30ch">Pâtisserie, café et réceptions. Hay Riad, Rabat. Déplacements partout au Maroc selon l’événement.</p></div>
 <div><h5>Nos maisons</h5><a href="/patisserie">La Pâtisserie</a><a href="/cafe">Le Café</a><a href="/receptions">Les Réceptions</a></div>
 <div><h5>Contact</h5><a href="https://wa.me/212661392231" target="_blank" rel="noopener">WhatsApp</a><a href="tel:+212661404880">0661 404 880</a><a href="mailto:contact@gastongali.ma">contact@gastongali.ma</a></div>
