@@ -286,8 +286,8 @@ footer{background:var(--ink);color:var(--ivory);padding:clamp(60px,8vw,110px) 0 
   .doors .door,.doors:hover .door,.doors .door:hover{
     --bg:#F6F1E7;--fg:#0C0B0A;--acc:#85754E;--soft:#554e43;
     position:relative;top:auto;display:flex;flex-direction:column;align-items:center;text-align:center;flex:none;height:auto;min-height:0;overflow:hidden;margin:0;padding:60px 26px 66px;background:var(--bg);color:var(--fg);transform:none}
-  .doors .door:nth-child(2){--bg:#1D2216;--fg:#F8F3E7;--acc:#A9B684;--soft:#d3d9bf}
-  .doors .door:nth-child(3){--bg:#141210;--fg:#F6F1E7;--acc:#B3A06C;--soft:#cdc4b0}
+  .doors .door:nth-child(2){--bg:#141210;--fg:#F6F1E7;--acc:#B3A06C;--soft:#cdc4b0}
+  .doors .door:nth-child(3){--bg:#ECE4D4;--fg:#0C0B0A;--acc:#85754E;--soft:#554e43}
   .doors .door+.door{border-top:1px solid rgba(179,160,108,.45)}
   .doors .door::after{display:none}
   .doors .door .in{display:contents}
