@@ -437,4 +437,8 @@ html,body{overflow-x:clip}
   body .hero-p .btns{margin-top:24px}
   body .pstage{width:min(76vw,320px);margin:0 auto}
   body .pstage .p img{width:88%;max-height:88%}
+  body .hero-p .btn.ghost{display:inline-flex}
+  body .hero-p .btns{gap:10px}
 }
+section[id]{scroll-margin-top:var(--nav-h)}
+.coll+.sig{border-top:1px solid rgba(212,178,94,.45)}
