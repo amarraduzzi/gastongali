@@ -435,6 +435,6 @@ html,body{overflow-x:clip}
   body .hero-p h1 .h1k{margin-bottom:16px}
   body .hero-p .lead{font-size:15px;line-height:1.65;margin-top:18px}
   body .hero-p .btns{margin-top:24px}
-  body .pstage{width:min(88vw,390px);margin:-4px auto 0}
-  body .pstage .p img{width:90%;max-height:90%}
+  body .pstage{width:min(76vw,320px);margin:0 auto}
+  body .pstage .p img{width:88%;max-height:88%}
 }
