@@ -46,16 +46,22 @@ if(typeEl){
   typeEl.addEventListener('click',e=>{if(e.target.tagName!=='BUTTON')return;[...typeEl.children].forEach(b=>b.classList.toggle('on',b===e.target));upd()});
   needsEl.addEventListener('click',e=>{if(e.target.tagName!=='BUTTON')return;e.target.classList.toggle('on');upd()});
   ['input','change'].forEach(ev=>['guests','date','city','name'].forEach(id=>$('#'+id).addEventListener(ev,upd)));
+  const LG=document.documentElement.lang,I={
+   fr:{ev:'Événement',g:n=>n+' personnes',d:'Date à définir',c:'Lieu à définir',nd:'À définir ensemble',loc:'fr-FR',m:(name,t,n,ds,city,needs)=>`Bonjour Gaston Gali,${name?' je suis '+name+'.':''} Je prépare : ${t}, environ ${n} invités, ${ds}, ${city}. Prestations souhaitées : ${needs||'à définir'}. Pouvez-vous me proposer un devis ? Merci.`},
+   en:{ev:'Event',g:n=>n+' guests',d:'Date to be set',c:'Venue to be set',nd:'To be agreed together',loc:'en-GB',m:(name,t,n,ds,city,needs)=>`Hello Gaston Gali,${name?' my name is '+name+'.':''} I am planning: ${t}, about ${n} guests, ${ds}, ${city}. Services wanted: ${needs||'to be agreed'}. Could you send me a quote? Thank you.`},
+   ar:{ev:'مناسبة',g:n=>n+' ضيفاً',d:'التاريخ يُحدَّد لاحقاً',c:'المكان يُحدَّد لاحقاً',nd:'نتفق عليها معاً',loc:'ar-MA-u-nu-latn',m:(name,t,n,ds,city,needs)=>`السلام عليكم غاستون غالي،${name?' أنا '+name+'.':''} أحضّر لـ: ${t}، حوالي ${n} ضيفاً، ${ds}، ${city}. الخدمات المطلوبة: ${needs||'نتفق عليها'}. هل يمكنكم إرسال عرض سعر؟ شكراً.`}
+  }[LG]||null;
+  const T=I||{ev:'Événement',g:n=>n+' personnes',d:'Date à définir',c:'Lieu à définir',nd:'À définir ensemble',loc:'fr-FR',m:null};
   function upd(){
-    const t=typeEl.querySelector('.on')?.textContent||'Événement';
+    const t=typeEl.querySelector('.on')?.textContent||T.ev;
     const needs=[...needsEl.querySelectorAll('.on')].map(b=>b.textContent);
     const n=g.value;$('#gOut').textContent=n;g.style.setProperty('--p',((n-g.min)/(g.max-g.min)*100)+'%');
     const d=$('#date').value;
-    const ds=d?new Date(d+'T12:00').toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}):'Date à définir';
-    const city=$('#city').value||'Lieu à définir',name=$('#name').value;
-    $('#sType').textContent=t;$('#sGuests').textContent=n+' personnes';
-    $('#sNeeds').textContent=needs.join(', ')||'À définir ensemble';$('#sWhen').textContent=ds+', '+city;
-    const msg=`Bonjour Gaston Gali,${name?' je suis '+name+'.':''} Je prépare : ${t}, environ ${n} invités, ${ds}, ${city}. Prestations souhaitées : ${needs.join(', ')||'à définir'}. Pouvez-vous me proposer un devis ? Merci.`;
+    const ds=d?new Date(d+'T12:00').toLocaleDateString(T.loc,{day:'numeric',month:'long',year:'numeric'}):T.d;
+    const city=$('#city').value||T.c,name=$('#name').value;
+    $('#sType').textContent=t;$('#sGuests').textContent=T.g(n);
+    $('#sNeeds').textContent=needs.join(', ')||T.nd;$('#sWhen').textContent=ds+', '+city;
+    const msg=T.m?T.m(name,t,n,ds,city,needs.join(', ')):`Bonjour Gaston Gali,${name?' je suis '+name+'.':''} Je prépare : ${t}, environ ${n} invités, ${ds}, ${city}. Prestations souhaitées : ${needs.join(', ')||'à définir'}. Pouvez-vous me proposer un devis ? Merci.`;
     $('#send').href='https://wa.me/212661392231?text='+encodeURIComponent(msg);
   }
   upd();
