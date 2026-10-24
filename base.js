@@ -12,7 +12,7 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.targ
 $$('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%3)*80+'ms';io.observe(el)});
 
 /* whatsapp button */
-const wa=$('.wa');if(wa){const f=()=>wa.classList.toggle('hide',scrollY<300);addEventListener('scroll',f,{passive:true});f()}
+const wa=$('.wa');if(wa){let hid=false;const f=()=>wa.classList.toggle('hide',scrollY<300||hid);addEventListener('scroll',f,{passive:true});f();/* devis-hide */const vis=new Set(),z=$$('#devis,footer');if(z.length){const o=new IntersectionObserver(es=>{es.forEach(e=>e.isIntersecting?vis.add(e.target):vis.delete(e.target));hid=vis.size>0;f()},{threshold:.05});z.forEach(e=>o.observe(e))}}
 
 /* café tabs scrollspy */
 const tabs=$$('.tabs a');
