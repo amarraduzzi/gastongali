@@ -73,3 +73,26 @@ if(typeEl){
 const f=()=>{t=0;const c=scrollY;if(!matchMedia('(max-width:820px)').matches){nav.classList.remove('min');y=c;return}
  if(c<60)nav.classList.remove('min');else if(c>y+6)nav.classList.add('min');else if(c<y-6)nav.classList.remove('min');y=c};
 addEventListener('scroll',()=>{if(!t)t=requestAnimationFrame(f)},{passive:true})})();
+
+/* taalkiezer: uitklapmenu */
+(()=>{const names={fr:'Français',en:'English',ar:'العربية'};
+const gl='<svg class="gl" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5c2.6 2.6 4 5.9 4 9.5s-1.4 6.9-4 9.5c-2.6-2.6-4-5.9-4-9.5s1.4-6.9 4-9.5z"/></svg>';
+const ch='<svg class="ch" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5"/></svg>';
+const groups=[...document.querySelectorAll('.nav .lang')];
+const closeAll=()=>groups.forEach(g=>{g.classList.remove('open');const b=g.querySelector('.lang-btn');if(b)b.setAttribute('aria-expanded','false')});
+groups.forEach((g,i)=>{const links=[...g.querySelectorAll('a')];if(!links.length)return;
+ const cur=links.find(a=>a.classList.contains('on'))||links[0];
+ const lab=g.getAttribute('aria-label')||'Language';
+ const btn=document.createElement('button');btn.type='button';btn.className='lang-btn';
+ btn.setAttribute('aria-haspopup','true');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-controls','lang-menu-'+i);
+ btn.setAttribute('aria-label',lab+' : '+(names[cur.hreflang]||cur.textContent.trim()));
+ btn.innerHTML=gl+'<span class="lb-t" data-l="'+cur.hreflang+'">'+cur.textContent.trim()+'</span>'+ch;
+ const menu=document.createElement('div');menu.className='lang-menu';menu.id='lang-menu-'+i;
+ links.forEach(a=>{a.textContent=names[a.hreflang]||a.textContent;a.setAttribute('lang',a.hreflang);menu.appendChild(a)});
+ g.textContent='';g.append(btn,menu);g.classList.add('dd');
+ btn.addEventListener('click',e=>{e.stopPropagation();const open=!g.classList.contains('open');closeAll();if(open){g.classList.add('open');btn.setAttribute('aria-expanded','true')}});
+});
+document.addEventListener('click',e=>{if(!e.target.closest('.lang'))closeAll()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=groups.find(g=>g.classList.contains('open'));closeAll();if(o){const b=o.querySelector('.lang-btn');if(b)b.focus()}}});
+addEventListener('scroll',closeAll,{passive:true});
+})();
