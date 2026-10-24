@@ -36,16 +36,29 @@
 .cafe .band::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.15) 30%,rgba(10,10,10,.82))}
 .cafe .band p{position:relative;z-index:2;margin:0;padding:0 24px clamp(26px,5vw,52px);font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(22px,3.4vw,38px);line-height:1.2;color:var(--gold-xl);text-align:center}
 .nav .lm{display:none}@media(max-width:820px){.nav .lm{display:flex;position:absolute;top:12px;inset-inline-end:14px;margin:0}.nav .cta .lang{display:none}}.lang{display:flex;gap:12px;align-items:center;margin-inline-end:16px;font-size:11px;letter-spacing:.12em;font-weight:600}.lang a{color:inherit;opacity:.55;text-decoration:none}.lang a.on{opacity:1}.lang a[hreflang=ar]{letter-spacing:0;font-size:13px}@media(max-width:560px){.lang{gap:9px;margin-inline-end:10px}}
+
+.hero-f{position:relative;min-height:max(640px,100svh);display:flex;align-items:center;background:#0A0A0A;color:var(--ivory);overflow:hidden;padding:calc(var(--nav-h) + 30px) 0 70px}
+.hero-f .ph{position:absolute;inset:0 0 0 auto;width:min(60%,900px);margin:0;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 38%);mask-image:linear-gradient(90deg,transparent 0,#000 38%)}
+html[dir=rtl] .hero-f .ph{inset:0 auto 0 0;-webkit-mask-image:linear-gradient(270deg,transparent 0,#000 38%);mask-image:linear-gradient(270deg,transparent 0,#000 38%)}
+.hero-f .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 55%}
+.hero-f .wrap{position:relative;z-index:1;width:100%}
+.hero-f .tx{max-width:min(600px,54%)}
+.hero-f h1{font-family:var(--serif);font-weight:400;font-size:clamp(46px,6.2vw,96px);line-height:1}
+.hero-f h1 em{font-style:italic;color:var(--gold-xl)}
+.hero-f .h1k{display:block;margin-bottom:20px;color:var(--gold-l)}
+.hero-f p{max-width:42ch;margin-top:22px;color:#cdc4b0;font-size:16px}
+.hero-f .btns{display:flex;align-items:center;gap:26px;flex-wrap:wrap;margin-top:30px}
+.hero-f .lnk{font-size:13px;color:var(--gold-xl);border-bottom:1px solid currentColor;padding-bottom:2px}
+@media (max-width:820px){.hero-f{display:block;min-height:0;padding:var(--nav-h) 0 46px}
+.hero-f .ph{position:relative;inset:auto;width:100%;height:58svh;min-height:380px;-webkit-mask-image:linear-gradient(180deg,#000 52%,transparent 100%);mask-image:linear-gradient(180deg,#000 52%,transparent 100%)}
+html[dir=rtl] .hero-f .ph{inset:auto;-webkit-mask-image:linear-gradient(180deg,#000 52%,transparent 100%);mask-image:linear-gradient(180deg,#000 52%,transparent 100%)}
+.hero-f .wrap{margin-top:-120px}.hero-f .tx{max-width:none}.hero-f .btns{gap:20px}}
 </style>
 </head><body><header class="nav"><a class="logo" href="/" aria-label="Gaston Gali, home"><img src="../img/logo-light.svg" alt="Gaston Gali" width="108" height="32"></a>
 <nav class="switch" aria-label="Our three houses"><a href="/patisserie">Pâtisserie</a><a href="/cafe" class=on>Café</a><a href="/receptions">Receptions</a></nav>
 <div class="lang lm" aria-label="Langue"><a href="/cafe" hreflang="fr">FR</a><a href="/cafe-en" hreflang="en" class=on>EN</a><a href="/cafe-ar" hreflang="ar">عربية</a></div><div class="cta"><div class="lang" aria-label="Langue"><a href="/cafe" hreflang="fr">FR</a><a href="/cafe-en" hreflang="en" class=on>EN</a><a href="/cafe-ar" hreflang="ar">عربية</a></div><a class="btn" href="https://wa.me/212661392231" target="_blank" rel="noopener">Contact us</a></div></header>
 <main class="cafe">
-<section class="hero-c"><div class="wrap"><div class="g">
-<h1><span class="label on-dark h1k">Café &amp; brunch in Hay Riad, Rabat</span>A table in <em>Hay Riad.</em></h1>
-<figure class="arch"><img src="../img/photo/terrasse.webp" alt="Breakfast on the terrace of Café Gaston Gali, Hay Riad, Rabat" width="900" height="1125" loading="eager" style="object-position:50% 55%"></figure>
-<div class="cp"><p>Breakfasts, brunches, mains, crêpes and drinks. Homemade, from morning to dessert.</p>
-<div class="btns"><a class="btn" href="#carte">See the menu <svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path d="M0 5h16M12 1l4 4-4 4" stroke="currentColor" stroke-width="1.2"/></svg></a><a class="lnk" href="https://wa.me/212661392231" target="_blank" rel="noopener">Book on WhatsApp</a></div></div></div></div></section>
+<section class="hero-f"><figure class="ph"><img src="../img/photo/terrasse.webp" alt="Breakfast on the terrace of Café Gaston Gali, Hay Riad, Rabat" width="900" height="1125" loading="eager" style="object-position:50% 55%"></figure><div class="wrap"><div class="tx"><h1><span class="label on-dark h1k">Café &amp; brunch in Hay Riad, Rabat</span>A table in <em>Hay Riad.</em></h1><p>Breakfasts, brunches, mains, crêpes and drinks. Homemade, from morning to dessert.</p><div class="btns"><a class="btn" href="#carte">See the menu <svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path d="M0 5h16M12 1l4 4-4 4" stroke="currentColor" stroke-width="1.2"/></svg></a><a class="lnk" href="https://wa.me/212661392231" target="_blank" rel="noopener">Book on WhatsApp</a></div></div></div></section>
 <div class="strip"><div class="wrap"><span>Breakfast</span><span>Brunch</span><span>Mains</span><span>Crêpes &amp; waffles</span><span>Drinks</span></div></div>
 <div id="carte"></div>
 <nav class="tabs" aria-label="The menu"><div class="in"><a href="#matin">Morning</a><a href="#sale">Mains</a><a href="#maroc">Moroccan</a><a href="#douceurs">Sweets</a><a href="#boissons">Drinks</a></div></nav>
