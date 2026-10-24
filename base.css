@@ -427,8 +427,14 @@ html,body{overflow-x:clip}
   .switch a{padding:6px 2px;font-size:9.5px;letter-spacing:.1em}
   .nav.min{transform:translateY(-34px)}
   body .btn{padding:13px 22px;font-size:10px;letter-spacing:.2em;gap:10px}
-  body .hero-p h1{font-size:clamp(27px,7.6vw,31px);margin-top:8px}
-  body .hero-p .lead{font-size:14px;line-height:1.6;margin-top:10px}
-  body .hero-p .btns{margin-top:16px}
-  body .pstage{width:min(56vw,236px,27svh)}
+  /* pâtisserie-hero: zelfde opzet als desktop, op schaal */
+  body .hero-p{align-items:flex-start;min-height:0;padding:calc(var(--nav-h) + 34px) 0 12px}
+  body .hero-p .grid{gap:0}
+  body .hero-p h1{font-size:clamp(38px,10.6vw,46px);line-height:1.02;margin-top:14px}
+  body .hero-p h1 em{display:block}
+  body .hero-p h1 .h1k{margin-bottom:16px}
+  body .hero-p .lead{font-size:15px;line-height:1.65;margin-top:18px}
+  body .hero-p .btns{margin-top:24px}
+  body .pstage{width:min(88vw,390px);margin:-4px auto 0}
+  body .pstage .p img{width:90%;max-height:90%}
 }
