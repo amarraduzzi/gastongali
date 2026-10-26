@@ -76,6 +76,9 @@ if(fv){
     sb&&sb.addEventListener('click',()=>{fv.muted=!fv.muted;sb.setAttribute('aria-pressed',String(!fv.muted));sb.setAttribute('aria-label',fv.muted?sb.dataset.on:sb.dataset.off);if(!fv.muted)fv.play().catch(()=>{})});
   }
 }
+/* café : parallaxe des couvertures */
+const duo=$('.menus .pair');
+if(duo&&!reduce)addEventListener('scroll',()=>{const r=duo.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;duo.style.setProperty('--p',((r.top/innerHeight-.4)*46).toFixed(1))},{passive:true});
 })();
 
 /* header: logorij klapt in bij naar beneden scrollen (mobiel) */
