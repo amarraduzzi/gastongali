@@ -66,6 +66,16 @@ if(typeEl){
   }
   upd();
 }
+/* café : film de la maison */
+const fv=$('.film video');
+if(fv){
+  const sb=$('.film-snd');
+  if(reduce){fv.controls=true;fv.preload='metadata';sb&&sb.remove()}
+  else{
+    new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)fv.play().catch(()=>{});else fv.pause()}),{threshold:.35}).observe(fv);
+    sb&&sb.addEventListener('click',()=>{fv.muted=!fv.muted;sb.setAttribute('aria-pressed',String(!fv.muted));sb.setAttribute('aria-label',fv.muted?sb.dataset.on:sb.dataset.off);if(!fv.muted)fv.play().catch(()=>{})});
+  }
+}
 })();
 
 /* header: logorij klapt in bij naar beneden scrollen (mobiel) */
