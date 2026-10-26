@@ -445,21 +445,25 @@ section[id]{scroll-margin-top:var(--nav-h)}
 .coll+.sig{border-top:1px solid rgba(212,178,94,.45)}
 
 /* café : film de la maison */
-.film{background:#0A0A0A;color:var(--ivory);padding:clamp(64px,9vw,130px) 0;overflow:hidden}
+.film{background:var(--ivory-2);color:var(--ink);padding:clamp(64px,9vw,130px) 0;overflow:hidden}
 .film .wrap{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:clamp(34px,7vw,110px)}
-.film-arch{position:relative;margin:0 8px;width:min(78vw,340px);aspect-ratio:9/15.5;border-radius:999px 999px 0 0;overflow:hidden;background:#111;box-shadow:0 0 0 7px #0A0A0A,0 0 0 8px var(--gold-l)}
+.film-arch{position:relative;margin:0 8px;width:min(78vw,340px);aspect-ratio:9/15.5;border-radius:999px 999px 0 0;overflow:hidden;background:#111;box-shadow:0 0 0 7px var(--ivory-2),0 0 0 8px var(--gold),0 46px 70px -38px rgba(0,0,0,.45)}
 .film-arch video{width:100%;height:100%;object-fit:cover;display:block}
 .film-snd{position:absolute;inset-inline-end:16px;bottom:16px;width:46px;height:46px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--gold-l);background:rgba(10,10,10,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--gold-xl);cursor:pointer;transition:background .4s var(--ease),color .4s var(--ease)}
 .film-snd:hover,.film-snd:focus-visible{background:var(--gold);color:#0A0A0A}
 .film-snd .on{display:none}.film-snd[aria-pressed=true] .on{display:block}.film-snd[aria-pressed=true] .off{display:none}
 .film-tx h2{font-family:var(--serif);font-weight:400;font-size:clamp(38px,5vw,76px);line-height:1.03;margin-top:18px}
-.film-tx h2 em{font-style:italic;color:var(--gold-xl)}
-.film-tx p{max-width:44ch;margin-top:22px;color:#D8D8D8;font-size:16px}
-.film-tx .lnk{display:inline-block;margin-top:30px;font-size:13px;color:var(--gold-xl);border-bottom:1px solid currentColor;padding-bottom:2px}
+.film-tx h2 em{font-style:italic;color:var(--gold)}
+.film-tx p{max-width:44ch;margin-top:22px;color:var(--muted);font-size:16px}
+.film-tx .lnk{display:inline-block;margin-top:30px;font-size:13px;color:var(--gold-d);border-bottom:1px solid currentColor;padding-bottom:2px}
 @media (max-width:820px){.film{padding:48px 0 60px}.film .wrap{grid-template-columns:1fr;gap:34px;text-align:center}.film-arch{margin-inline:auto}.film-tx p{margin-inline:auto}}
 
 /* café : couvertures de la carte */
-.menus{position:relative;isolation:isolate;background:#0A0A0A;color:var(--ivory);padding:clamp(70px,9vw,140px) 0 clamp(80px,10vw,150px);overflow:hidden;text-align:center}
+.menus{position:relative;isolation:isolate;background:radial-gradient(46% 36% at 50% 66%,rgba(176,141,58,.24),transparent 72%),#1C1A1B;border-top:1px solid rgba(212,178,94,.3);color:var(--ivory);padding:clamp(96px,11vw,170px) 0 clamp(80px,10vw,150px);overflow-x:clip;text-align:center}
+.menus .seam{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:16px;z-index:3;pointer-events:none}
+.menus .seam i{display:block;width:clamp(60px,12vw,160px);height:1px;background:linear-gradient(90deg,transparent,var(--gold-l))}
+.menus .seam i:last-child{transform:scaleX(-1)}
+.menus .seam img{width:26px;height:auto}
 .menus::before,.menus::after{content:"";position:absolute;top:0;z-index:-1;height:min(78%,600px);background:center top/contain no-repeat;pointer-events:none;opacity:.92;transform-origin:50% 0;animation:magsway 9s ease-in-out infinite alternate}
 .menus::before{left:0;aspect-ratio:360/650;background-image:url(../img/menu/magnolia-l.webp)}
 .menus::after{right:0;aspect-ratio:404/650;background-image:url(../img/menu/magnolia-r.webp);animation-delay:-4.5s}
@@ -474,5 +478,5 @@ section[id]{scroll-margin-top:var(--nav-h)}
 .menus .carte:nth-child(2){transform:rotate(3.5deg) translateY(calc(var(--p,0) * -1px));z-index:2}
 .menus .carte:hover,.menus .carte:focus-visible{transform:rotate(0) translateY(-14px) scale(1.04);z-index:3}
 .menus .lnk{display:inline-block;margin-top:clamp(40px,5vw,64px);font-size:13px;color:var(--gold-xl);border-bottom:1px solid currentColor;padding-bottom:2px}
-@media (max-width:820px){.menus{padding:56px 0 70px}.menus::before,.menus::after{height:150px;opacity:.45}.menus .carte{width:43vw}.menus .carte:nth-child(1){margin-inline-end:-20px}.menus .mtx{font-size:15px}}
+@media (max-width:820px){.menus{padding:84px 0 70px}.menus::before,.menus::after{height:150px;opacity:.45}.menus .carte{width:43vw}.menus .carte:nth-child(1){margin-inline-end:-20px}.menus .mtx{font-size:15px}}
 @media (prefers-reduced-motion:reduce){.menus::before,.menus::after{animation:none}.menus .carte{transition:none}}
