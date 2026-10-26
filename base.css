@@ -480,3 +480,22 @@ section[id]{scroll-margin-top:var(--nav-h)}
 .menus .lnk{display:inline-block;margin-top:clamp(40px,5vw,64px);font-size:13px;color:var(--gold-xl);border-bottom:1px solid currentColor;padding-bottom:2px}
 @media (max-width:820px){.menus{padding:84px 0 70px}.menus::before,.menus::after{height:150px;opacity:.45}.menus .carte{width:43vw}.menus .carte:nth-child(1){margin-inline-end:-20px}.menus .mtx{font-size:15px}}
 @media (prefers-reduced-motion:reduce){.menus::before,.menus::after{animation:none}.menus .carte{transition:none}}
+
+/* café : le menu, dans l'esprit des couvertures */
+.cafe{counter-reset:ch}
+.cafe .mgroup{counter-increment:ch}
+.cafe .mgroup::after{content:"";position:absolute;top:0;z-index:1;width:clamp(120px,16vw,230px);aspect-ratio:360/650;opacity:.15;pointer-events:none;background:center top/contain no-repeat}
+.cafe .mgroup:nth-of-type(odd)::after{right:0;aspect-ratio:404/650;background-image:url(../img/menu/magnolia-or-r.webp)}
+.cafe .mgroup:nth-of-type(even)::after{left:0;background-image:url(../img/menu/magnolia-or-l.webp)}
+.cafe .mgroup>.wrap>header .label{display:flex;align-items:center;gap:14px}
+.cafe .mgroup>.wrap>header .label::before{content:counter(ch,decimal-leading-zero);font-family:var(--serif);font-style:italic;font-size:30px;font-weight:400;letter-spacing:0;line-height:1;color:var(--gold)}
+.cafe .mgroup>.wrap>header .label::after{content:"";width:46px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.cafe .mgroup>.wrap>header{position:relative}
+.cafe .mgroup>.wrap>header::after{content:"";grid-column:2;grid-row:1/span 3;align-self:end;justify-self:end;z-index:-1;width:clamp(120px,25vw,250px);aspect-ratio:1;border-radius:50%;background:var(--gold-l);opacity:.3;margin:0 clamp(40px,10vw,120px) 0 0;transform:translateY(14%)}
+html[dir=rtl] .cafe .mgroup>.wrap>header::after{margin:0 0 0 clamp(40px,10vw,120px)}
+.cafe .fc{display:flex;flex-direction:column;border-color:transparent;box-shadow:0 1px 0 rgba(0,0,0,.04),0 18px 36px -30px rgba(0,0,0,.35)}
+.cafe .fc::before{border-color:rgba(176,141,58,.4)}
+.cafe .fc ul{margin-bottom:18px}
+.cafe .fc .acc{margin-top:auto}
+.cafe .fc h4::after{content:"";display:block;width:34px;height:1px;margin-top:12px;background:var(--gold)}
+@media (max-width:820px){.cafe .mgroup>.wrap>header .label::after{display:none}.cafe .mgroup::after{opacity:.12;width:100px}.cafe .mgroup>.wrap>header::after{width:clamp(90px,24vw,130px);margin-right:28px}}
