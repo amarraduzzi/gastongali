@@ -508,3 +508,6 @@ html[dir=rtl] .cafe .mgroup>.wrap>header::after{margin:0 0 0 clamp(40px,10vw,120
 .cafe+footer{position:relative;overflow:hidden}
 .cafe+footer::after{content:"";position:absolute;right:0;top:0;z-index:0;width:clamp(100px,13vw,200px);aspect-ratio:404/650;background:url(../img/menu/magnolia-r.webp) center top/contain no-repeat;opacity:.1;pointer-events:none}
 @media (max-width:820px){.cafe .hero-cf::after{width:96px;opacity:.12}.cafe .film::after{width:90px;opacity:.14}.cafe+footer::after{width:90px;opacity:.08}}
+
+/* menu : les onglets suivent la barre de navigation quand elle se replie (mobile) */
+@media (max-width:820px){:root:has(.nav.min){--tabs-top:calc(var(--nav-h) - 34px)}.tabs{top:var(--tabs-top,var(--nav-h));transition:top .35s var(--ease)}}
