@@ -6,13 +6,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--gold:#B08D3A;--gold-l:#D4B25E;--ink:#0A0A0A;--ivory:#F4F1E8;--panel:rgba(10,10,10,.9);--ph:40svh}
+:root{--gold:#B08D3A;--gold-l:#D4B25E;--ink:#0A0A0A;--ivory:#F4F1E8;--panel:rgba(10,10,10,.9);--ph:max(330px,45svh)}
 *{box-sizing:border-box;margin:0}
 html,body{height:100%;background:var(--ink);color:var(--ivory);font-family:Montserrat,system-ui,sans-serif;overflow:hidden}
 #stage{position:fixed;inset:0;overflow:hidden;background:#0a0a0a}
 .bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .8s,filter .8s}
 .bg.on{opacity:1}
 #stage.eve .bg{filter:brightness(.5) saturate(1.2) sepia(.25)}
+#stage.focus .bg{filter:brightness(.42) blur(6px)}
+#stage.eve.focus .bg{filter:brightness(.3) blur(6px) sepia(.25)}
 #vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 55%,transparent 45%,rgba(0,0,0,.55) 100%)}
 canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab}
 canvas:active{cursor:grabbing}
@@ -27,7 +29,8 @@ header h1{font:italic 500 clamp(20px,3vw,30px)/1 "Cormorant Garamond",serif;colo
 .o{background:#000;border:1px solid #ffffff22;padding:0;cursor:pointer;color:var(--ivory);font:500 10px Montserrat,sans-serif;letter-spacing:.05em;text-align:center;display:flex;flex-direction:column;align-self:start}
 .o img{width:100%;aspect-ratio:1;object-fit:cover;display:block;background:#222}
 .o.cut img{object-fit:contain;background:radial-gradient(#3a3226,#15120d)}
-.o span{padding:6px 4px;min-height:28px}
+.o span{padding:9px 6px;min-height:34px;font-size:12px;letter-spacing:.04em}
+.o.cut img{padding:6%}
 .o.on{border-color:var(--gold-l);box-shadow:0 0 0 1px var(--gold-l)}
 .set{grid-column:1/-1;display:grid;gap:8px}
 .set b{font:600 10px Montserrat,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#F4F1E8aa;margin-top:6px}
@@ -37,7 +40,19 @@ header h1{font:italic 500 clamp(20px,3vw,30px)/1 "Cormorant Garamond",serif;colo
 #act{display:flex;gap:8px;padding:10px 12px;border-top:1px solid #B08D3A44;flex:none;flex-wrap:wrap}
 #wa{flex:1;min-width:150px;display:block;padding:13px 10px;text-align:center;background:var(--gold);color:#0A0A0A;text-decoration:none;font:600 11px Montserrat,sans-serif;letter-spacing:.12em;text-transform:uppercase}
 #devis{width:100%;text-align:center;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#F4F1E8aa;text-decoration:none}
-#hint{position:absolute;z-index:4;left:0;right:0;bottom:14px;text-align:center;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#F4F1E8aa;pointer-events:none;transition:opacity .6s}
+#hint{position:absolute;z-index:4;left:0;right:0;bottom:118px;text-align:center;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#F4F1E8aa;pointer-events:none;transition:opacity .6s}
+#strip,#pill{position:absolute;left:0;right:0;z-index:4;display:flex;justify-content:center;pointer-events:none}
+#strip{bottom:12px;gap:6px}
+#pill{bottom:68px}
+#pill span{background:rgba(10,10,10,.7);border:1px solid #B08D3A66;padding:9px 16px;font:600 11px Montserrat,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--ivory);backdrop-filter:blur(6px)}
+#pill em{font:italic 500 18px "Cormorant Garamond",serif;letter-spacing:.02em;text-transform:none;color:var(--gold-l);margin-left:8px}
+#strip button{pointer-events:auto;width:46px;height:46px;padding:0;border:1px solid #ffffff44;background:#15120d;cursor:pointer;opacity:.85}
+#strip button.on{border-color:var(--gold-l);opacity:1;box-shadow:0 0 0 1px var(--gold-l)}
+#strip img{width:100%;height:100%;object-fit:cover;display:block}
+#strip img.cut{object-fit:contain;padding:3px}
+.arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:54px;height:54px;border-radius:50%;background:rgba(10,10,10,.65);border:1px solid #B08D3A99;color:var(--gold-l);font:400 28px/1 Georgia,serif;cursor:pointer;display:none;backdrop-filter:blur(6px)}
+#stage.sel .arrow{display:block}
+#prev{left:16px}#next{right:16px}
 #load{position:fixed;inset:0;z-index:200;background:var(--ink);display:grid;place-items:center;transition:opacity 1s,visibility 1s}
 #load.done{opacity:0;visibility:hidden}
 #load img{width:min(62vw,400px);clip-path:inset(0 100% 0 0);animation:write 1.6s cubic-bezier(.6,.1,.3,1) .2s forwards}
@@ -49,18 +64,23 @@ header h1{position:absolute;left:0;right:0;text-align:center;pointer-events:none
 @media(max-width:700px){header h1{display:none}}
 @media(min-width:821px){
  #panel{top:84px;right:20px;bottom:20px;width:360px}
- #opts{grid-template-columns:repeat(3,1fr)}
+ #opts{grid-template-columns:repeat(2,1fr)}
+ #strip,#pill,#hint{right:400px}
+ #next{right:416px}
 }
 @media(max-width:820px){
  #stage{bottom:var(--ph)}
  #panel{left:0;right:0;bottom:0;height:var(--ph);padding-bottom:env(safe-area-inset-bottom,0px)}
- #opts{grid-template-columns:repeat(auto-fill,minmax(88px,1fr))}
+ #opts{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;padding:10px 12px}
+ .o{flex:none;width:150px;scroll-snap-align:start}
+ .set{min-width:100%}
+ #stage .arrow{width:48px;height:48px}
  #devis{display:none}
  #act{flex-wrap:nowrap}
 }
 </style></head><body>
 <div id="load" aria-hidden="true"><img src="img/logo-light.svg" alt=""><i>Composez votre salle</i></div>
-<div id="stage"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div><div id="vig"></div><div id="hint">Faites glisser pour tourner la table</div></div>
+<div id="stage"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div><div id="vig"></div><button class="arrow" id="prev" type="button" aria-label="Précédent">‹</button><button class="arrow" id="next" type="button" aria-label="Suivant">›</button><div id="hint">Faites glisser pour tourner la table</div><div id="pill"><span id="pt"></span></div><div id="strip"></div></div>
 <header><a class="logo" href="/" aria-label="Gaston Gali, accueil"><img src="img/logo-light.svg" alt="Gaston Gali" width="108" height="32"></a><h1>Composez votre salle</h1><a href="receptions.html">← Réceptions</a></header>
 <section id="panel" aria-label="Options">
  <div id="tabs" role="tablist"></div>
@@ -83,7 +103,7 @@ const CAT=[
  {k:'glass',t:'Verres',cut:true,dir:C,pre:'glass-',o:[['champagne-coupe','Coupe champagne'],['crystal-water','Cristal']]}
 ];
 // where the table stands on the floor of each hall photo: u,v = position in the photo, k = table width as a share of photo height
-const SPOT=[{u:.5,v:.88,k:.62},{u:.5,v:.84,k:.56},{u:.5,v:.84,k:.5},{u:.5,v:.84,k:.5},{u:.5,v:.86,k:.56}];
+const SPOT=[{u:.5,v:.77,k:.6},{u:.5,v:.75,k:.55},{u:.5,v:.75,k:.5},{u:.5,v:.75,k:.5},{u:.5,v:.77,k:.55}];
 const S={hall:0,chair:0,cloth:0,plate:0,centre:0,light:0,glass:0,shape:'round',seats:8,mood:'day'};
 const src=(c,i)=>c.dir+c.pre+c.o[i][0]+'.webp';
 // restore a shared composition from the link
@@ -91,9 +111,10 @@ try{const q=new URLSearchParams(location.hash.slice(1));CAT.forEach(c=>{const v=
  if(q.get('shape')==='rect')S.shape='rect';const n=parseInt(q.get('seats'),10);if([6,8,10,12].includes(n))S.seats=n;if(q.get('mood')==='eve')S.mood='eve'}catch(e){}
 
 /* ---------- UI ---------- */
+const strip=document.getElementById('strip'),pt=document.getElementById('pt');
 const tabs=document.getElementById('tabs'),opts=document.getElementById('opts'),stage=document.getElementById('stage');
 let cur=0;
-function drawTabs(){tabs.innerHTML='';[...CAT.map(c=>c.t),'Table'].forEach((t,i)=>{const b=document.createElement('button');b.textContent=t;b.className=i===cur?'on':'';b.setAttribute('role','tab');b.onclick=()=>{cur=i;drawTabs();drawOpts()};tabs.appendChild(b)})}
+function drawTabs(){tabs.innerHTML='';[...CAT.map(c=>c.t),'Table'].forEach((t,i)=>{const b=document.createElement('button');b.textContent=t;b.className=i===cur?'on':'';b.setAttribute('role','tab');b.onclick=()=>gotoTab(i);tabs.appendChild(b)})}
 function btnRow(items,isOn,fn){const d=document.createElement('div');items.forEach(([v,l])=>{const b=document.createElement('button');b.textContent=l;b.className=isOn(v)?'on':'';b.onclick=()=>{fn(v);drawOpts()};d.appendChild(b)});return d}
 function drawOpts(){
  opts.innerHTML='';
@@ -105,8 +126,17 @@ function drawOpts(){
   h('Ambiance');s.appendChild(btnRow([['day','Jour'],['eve','Soirée']],v=>S.mood===v,v=>{S.mood=v;update('mood')}));
   opts.appendChild(s);return}
  const c=CAT[cur];
- c.o.forEach((o,i)=>{const b=document.createElement('button');b.className='o'+(c.cut?' cut':'')+(S[c.k]===i?' on':'');b.innerHTML='<img loading="lazy" alt="" src="'+src(c,i)+'"><span>'+o[1]+'</span>';b.onclick=()=>{S[c.k]=i;drawOpts();update(c.k)};opts.appendChild(b)})}
-drawTabs();drawOpts();
+ c.o.forEach((o,i)=>{const b=document.createElement('button');b.className='o'+(c.cut?' cut':'')+(S[c.k]===i?' on':'');b.innerHTML='<img loading="lazy" alt="" src="'+src(c,i)+'"><span>'+o[1]+'</span>';b.onclick=()=>choose(c.k,i);opts.appendChild(b)})}
+function gotoTab(i){cur=i;drawTabs();drawOpts();setFocus(i<CAT.length?CAT[i].k:null);hud();const a=opts.querySelector('.o.on');if(a&&a.scrollIntoView)a.scrollIntoView({block:'nearest',inline:'center'})}
+function choose(k,i){S[k]=i;drawOpts();update(k);hud()}
+function step(d){if(cur>=CAT.length)return;const c=CAT[cur];choose(c.k,(S[c.k]+d+c.o.length)%c.o.length)}
+function hud(){
+ stage.classList.toggle('sel',cur<CAT.length);
+ const c=CAT[cur];pt.innerHTML=c?c.t+'<em>'+c.o[S[c.k]][1]+'</em>':'Table<em>'+(S.shape==='round'?'ronde':'impériale')+', '+S.seats+' convives</em>';
+ strip.innerHTML='';CAT.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.title=c.t;b.className=i===cur?'on':'';b.innerHTML='<img class="'+(c.cut?'cut':'')+'" alt="'+c.t+'" src="'+src(c,S[c.k])+'">';b.onclick=()=>gotoTab(i);strip.appendChild(b)})}
+document.getElementById('prev').onclick=()=>step(-1);document.getElementById('next').onclick=()=>step(1);
+addEventListener('keydown',e=>{if(e.key==='ArrowLeft')step(-1);if(e.key==='ArrowRight')step(1)});
+drawTabs();drawOpts();hud();
 
 /* ---------- background photo ---------- */
 const bgs=[document.getElementById('bgA'),document.getElementById('bgB')];let bgI=0,IW=1376,IH=768;
@@ -132,6 +162,7 @@ const sc=document.createElement('canvas');sc.width=sc.height=128;
 const shadow=new THREE.Mesh(new THREE.PlaneGeometry(6.2,6.2),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(sc),transparent:true,depthWrite:false}));
 shadow.rotation.x=-Math.PI/2;shadow.position.y=.004;shadow.renderOrder=-1;rig.add(shadow);
 
+const fpts={chair:new THREE.Vector3(),plate:new THREE.Vector3(),glass:new THREE.Vector3(),centre:new THREE.Vector3(0,.76+.4,0),light:new THREE.Vector3(0,3.05,0),cloth:new THREE.Vector3()};
 const TOP=.76,tint=()=>S.mood==='eve'?new THREE.Color(.78,.66,.5):new THREE.Color(1,1,1);
 function sprite(url,h,anchorY,pos){
  const m=new THREE.SpriteMaterial({transparent:true,alphaTest:.05,color:tint()});
@@ -147,37 +178,38 @@ function build(which){
  const all=!which;
  if(all||['table','cloth'].includes(which)){
   tex(src(CAT[2],S.cloth),t=>{
-   const mk=(rx,ry)=>{const x=t.clone();x.needsUpdate=true;x.wrapS=x.wrapT=THREE.RepeatWrapping;x.repeat.set(rx,ry);return new THREE.MeshStandardMaterial({map:x,roughness:.8,metalness:.02})};
+   const mk=(rx,ry)=>{const x=t.clone();x.needsUpdate=true;x.wrapS=x.wrapT=THREE.RepeatWrapping;x.repeat.set(rx,ry);return new THREE.MeshStandardMaterial({map:x,roughness:.8,metalness:.02,transparent:true})};
    clear(tableG);
    if(S.shape==='round'){
     const top=new THREE.Mesh(new THREE.CylinderGeometry(1.2,1.2,.03,64),mk(1,1));top.position.y=TOP;
     const drape=new THREE.Mesh(new THREE.CylinderGeometry(1.23,1.45,TOP,64,1,true),mk(3,1));drape.position.y=TOP/2;
-    tableG.add(top,drape);shadow.scale.set(1,1,1);
+    top.userData.kind=drape.userData.kind='cloth';tableG.add(top,drape);shadow.scale.set(1,1,1);fpts.cloth.set(0,TOP*.6,1.3);
    }else{
     const w=S.seats*.31+.9;
     const top=new THREE.Mesh(new THREE.BoxGeometry(w,.03,1.3),mk(2,1));top.position.y=TOP;
     const drape=new THREE.Mesh(new THREE.BoxGeometry(w+.1,TOP,1.4),mk(3,1));drape.position.y=TOP/2-.01;
-    tableG.add(top,drape);shadow.scale.set((w+2)/6.2,.62,1);
+    top.userData.kind=drape.userData.kind='cloth';tableG.add(top,drape);shadow.scale.set((w+2)/6.2,.62,1);fpts.cloth.set(0,TOP*.6,.8);
    }
   });
  }
  if(all||['table','plate','glass','chair','centre','light'].includes(which)){
   clear(propsG);
   const rnd=S.shape==='round';
-  seats().forEach(p=>{
+  seats().forEach((p,idx)=>{
    let sx,sz,px,pz;
    if(rnd){sx=p.x*1.95;sz=p.z*1.95;px=p.x*.82;pz=p.z*.82}
    else{sx=px=p.rx;sz=p.side*1.2;pz=p.side*.42}
-   propsG.add(sprite(src(CAT[1],S.chair),1.15,0,new THREE.Vector3(sx,0,sz)));
+   const chs=sprite(src(CAT[1],S.chair),1.15,0,new THREE.Vector3(sx,0,sz));chs.userData.kind='chair';propsG.add(chs);
    const pm=new THREE.MeshBasicMaterial({transparent:true,alphaTest:.05,color:tint()});
    const pl=new THREE.Mesh(new THREE.PlaneGeometry(.36,.36),pm);pl.rotation.x=-Math.PI/2;pl.position.set(px,TOP+.02,pz);
-   tex(src(CAT[3],S.plate),t=>{pm.map=t;pm.needsUpdate=true});propsG.add(pl);
+   pl.userData.kind='plate';tex(src(CAT[3],S.plate),t=>{pm.map=t;pm.needsUpdate=true});propsG.add(pl);
    const gx=px+(rnd?p.z*.2:.2),gz=pz+(rnd?-p.x*.2:0);
-   propsG.add(sprite(src(CAT[6],S.glass),.26,0,new THREE.Vector3(gx,TOP+.02,gz)));
+   const gl=sprite(src(CAT[6],S.glass),.26,0,new THREE.Vector3(gx,TOP+.02,gz));gl.userData.kind='glass';propsG.add(gl);
+   if(idx===0){fpts.chair.set(sx,.55,sz);fpts.plate.set(px,TOP,pz);fpts.glass.set(gx,TOP+.1,gz)}
   });
-  propsG.add(sprite(src(CAT[4],S.centre),.8,0,new THREE.Vector3(0,TOP+.02,0)));
-  propsG.add(sprite(src(CAT[5],S.light),1.7,1,new THREE.Vector3(0,3.9,0)));
-  const rope=new THREE.Mesh(new THREE.CylinderGeometry(.008,.008,1.8,6),new THREE.MeshBasicMaterial({color:0x8a7a52}));rope.position.set(0,4.8,0);propsG.add(rope);
+  const ce=sprite(src(CAT[4],S.centre),.8,0,new THREE.Vector3(0,TOP+.02,0));ce.userData.kind='centre';propsG.add(ce);
+  const li=sprite(src(CAT[5],S.light),1.3,1,new THREE.Vector3(0,3.7,0));li.userData.kind='light';propsG.add(li);
+  const rope=new THREE.Mesh(new THREE.CylinderGeometry(.008,.008,1.8,6),new THREE.MeshBasicMaterial({color:0x8a7a52}));rope.position.set(0,4.6,0);rope.userData.kind='light';propsG.add(rope);
  }
  if(all||which==='mood')mood();
 }
@@ -194,17 +226,29 @@ function save(){
  const t="Bonjour Gaston Gali, voici la composition que j'ai imaginée :\n• Salle : "+label('hall')+"\n• Table : "+(S.shape==='round'?'ronde':'impériale')+", "+S.seats+" convives\n• Chaises : "+label('chair')+"\n• Nappe : "+label('cloth')+"\n• Assiettes : "+label('plate')+"\n• Centre de table : "+label('centre')+"\n• Luminaire : "+label('light')+"\n• Verres : "+label('glass')+"\n\nVoir la composition : "+location.href;
  document.getElementById('wa').href='https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(t)}
 
-/* ---------- camera: fixed, table sits on the floor of the photo ---------- */
-let el=.38,userScale=1,tRot=.5,auto=true,idle=0;
+/* ---------- camera: fixed, table sits on the floor of the photo; zooms to the chosen object ---------- */
+const FOC={chair:{s:3,el:.3},plate:{s:7,el:.85},cloth:{s:3.2,el:.3},centre:{s:5,el:.3},light:{s:2.2,el:.12},glass:{s:9,el:.35}};
+const foc={t:0,tt:0,kind:null,last:null,s:1,el:.38};
+let el=.38,userScale=1,tRot=.5,auto=true,idle=0,lw=0,lh=0;
+const Fw=new THREE.Vector3(),Tg=new THREE.Vector3(),Aw=new THREE.Vector3(),O3=new THREE.Vector3();
+function setFocus(k){
+ const f=FOC[k];foc.kind=f?k:null;stage.classList.toggle('focus',!!f);
+ if(f){foc.last=k;foc.s=f.s;foc.el=f.el;foc.tt=1;tRot=Math.round(rig.rotation.y/(Math.PI*2))*Math.PI*2;auto=false}
+ else{foc.tt=0;idle=0}}
 function layout(){
  const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;
- R.setSize(w,h);cam.aspect=w/h;
+ if(w!==lw||h!==lh){R.setSize(w,h);lw=w;lh=h;cam.aspect=w/h}
  const f=Math.max(w/IW,h/IH),pw=IW*f,ph=IH*f,sp=SPOT[S.hall];
- const Px=(w-pw)/2+sp.u*pw,Py=(h-ph)/2+sp.v*ph;
- const ppu=sp.k*ph/4.6*userScale,d=(h/2)/(Math.tan(cam.fov*Math.PI/360)*ppu);
- cam.position.set(0,.5+d*Math.sin(el),d*Math.cos(el));cam.lookAt(0,.5,0);
+ const P0x=(w-pw)/2+sp.u*pw,P0y=(h-ph)/2+sp.v*ph;
+ const e=foc.t*foc.t*(3-2*foc.t),free=w>820?w-400:w;
+ const Px=P0x+(free/2-P0x)*e,Py=P0y+(h*.5-P0y)*e;
+ rig.updateMatrixWorld();
+ if(foc.last)Fw.copy(fpts[foc.last]).applyMatrix4(rig.matrixWorld);else Fw.set(0,0,0);
+ Aw.set(0,0,0).lerp(Fw,e);Tg.set(0,.5,0).lerp(Fw,e);
+ const ppu=sp.k*ph/4.6*(1+(foc.s-1)*e)*userScale,d=(h/2)/(Math.tan(cam.fov*Math.PI/360)*ppu),elv=el+(foc.el-el)*e;
+ cam.position.set(Tg.x,Tg.y+d*Math.sin(elv),Tg.z+d*Math.cos(elv));cam.lookAt(Tg);
  cam.clearViewOffset();cam.updateProjectionMatrix();cam.updateMatrixWorld();
- const v=new THREE.Vector3(0,0,0).project(cam),cx=(v.x+1)/2*w,cy=(1-v.y)/2*h;
+ const v=Aw.clone().project(cam),cx=(v.x+1)/2*w,cy=(1-v.y)/2*h;
  cam.setViewOffset(w,h,cx-Px,cy-Py,w,h);cam.updateProjectionMatrix()}
 addEventListener('resize',layout);
 
@@ -212,18 +256,21 @@ const pts=new Map();let lastPinch=0;const dom=R.domElement;
 dom.addEventListener('pointerdown',e=>{dom.setPointerCapture(e.pointerId);pts.set(e.pointerId,{x:e.clientX,y:e.clientY});auto=false;idle=0;document.getElementById('hint').style.opacity=0});
 dom.addEventListener('pointermove',e=>{
  if(!pts.has(e.pointerId))return;const p=pts.get(e.pointerId);
- if(pts.size===1){tRot+=(e.clientX-p.x)*.008;el=Math.min(.7,Math.max(.2,el+(e.clientY-p.y)*.002));layout()}
- else if(pts.size===2){const o=[...pts.entries()].find(([id])=>id!==e.pointerId)[1],d=Math.hypot(e.clientX-o.x,e.clientY-o.y);if(lastPinch){userScale=Math.min(1.4,Math.max(.75,userScale+(d-lastPinch)*.004));layout()}lastPinch=d}
+ if(pts.size===1){tRot+=(e.clientX-p.x)*.008;if(!foc.kind)el=Math.min(.7,Math.max(.2,el+(e.clientY-p.y)*.002))}
+ else if(pts.size===2){const o=[...pts.entries()].find(([id])=>id!==e.pointerId)[1],d=Math.hypot(e.clientX-o.x,e.clientY-o.y);if(lastPinch){userScale=Math.min(1.4,Math.max(.75,userScale+(d-lastPinch)*.004))}lastPinch=d}
  p.x=e.clientX;p.y=e.clientY});
 const up=e=>{pts.delete(e.pointerId);lastPinch=0};dom.addEventListener('pointerup',up);dom.addEventListener('pointercancel',up);
-dom.addEventListener('wheel',e=>{e.preventDefault();userScale=Math.min(1.4,Math.max(.75,userScale-e.deltaY*.001));layout();auto=false;idle=0},{passive:false});
+dom.addEventListener('wheel',e=>{e.preventDefault();userScale=Math.min(1.4,Math.max(.75,userScale-e.deltaY*.001));if(!foc.kind)auto=false;idle=0},{passive:false});
 
 const clock=new THREE.Clock();
 function frame(){
- const dt=clock.getDelta();
- if(auto)tRot+=dt*.18;else{idle+=dt;if(idle>6)auto=true}
+ const dt=Math.min(clock.getDelta(),.1);
+ if(foc.kind){auto=false}else if(auto)tRot+=dt*.18;else{idle+=dt;if(idle>6)auto=true}
+ foc.t+=(foc.tt-foc.t)*Math.min(1,dt*5);if(Math.abs(foc.t-foc.tt)<.0008)foc.t=foc.tt;
  rig.rotation.y+=(tRot-rig.rotation.y)*.1;
- R.render(scene,cam);requestAnimationFrame(frame)}
+ const dim=o=>{if(!o.material)return;const tg=(foc.kind&&o.userData.kind!==foc.kind)?.12:1;o.material.transparent=true;o.material.opacity+=(tg-o.material.opacity)*Math.min(1,dt*8)};
+ propsG.children.forEach(dim);tableG.children.forEach(dim);
+ layout();R.render(scene,cam);requestAnimationFrame(frame)}
 
 /* ---------- save image ---------- */
 document.getElementById('shot').onclick=()=>{
@@ -237,7 +284,7 @@ document.getElementById('shot').onclick=()=>{
   const a=document.createElement('a');a.download='gaston-gali-composition.png';a.href=c.toDataURL('image/png');a.click()};
  im.src=src(CAT[0],S.hall)};
 
-build();setHall();mood();layout();frame();
+build();setHall();mood();frame();
 setTimeout(()=>{document.getElementById('load').classList.add('done');setTimeout(()=>{document.getElementById('hint').style.opacity=0},7000)},2800);
 setTimeout(()=>CAT.forEach(c=>c.o.forEach((_,i)=>{const u=src(c,i);if(!cache[u]&&c.k!=='hall')tex(u,()=>{})})),2500);
 })();
