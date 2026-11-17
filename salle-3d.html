@@ -2,61 +2,68 @@
 <html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Composez votre salle — Gaston Gali</title>
-<meta name="description" content="Composez la table de votre réception en 3D : salle, chaises, nappes, assiettes, centres de table et luminaires.">
+<meta name="description" content="Composez la table de votre réception dans la salle de votre choix : chaises, nappes, assiettes, centres de table et luminaires.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--gold:#B08D3A;--gold-l:#D4B25E;--ink:#0A0A0A;--ivory:#F4F1E8;--panel:rgba(10,10,10,.88)}
+:root{--gold:#B08D3A;--gold-l:#D4B25E;--ink:#0A0A0A;--ivory:#F4F1E8;--panel:rgba(10,10,10,.9);--ph:40svh}
 *{box-sizing:border-box;margin:0}
 html,body{height:100%;background:var(--ink);color:var(--ivory);font-family:Montserrat,system-ui,sans-serif;overflow:hidden}
-#app{position:fixed;inset:0}
-canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+#stage{position:fixed;inset:0;overflow:hidden;background:#0a0a0a}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .8s,filter .8s}
+.bg.on{opacity:1}
+#stage.eve .bg{filter:brightness(.5) saturate(1.2) sepia(.25)}
+#vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 55%,transparent 45%,rgba(0,0,0,.55) 100%)}
+canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab}
 canvas:active{cursor:grabbing}
 header{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:calc(14px + env(safe-area-inset-top,0px)) 20px 14px;background:linear-gradient(#0A0A0Acc,#0A0A0A00);pointer-events:none}
 header a{pointer-events:auto;color:var(--ivory);text-decoration:none;font-size:11px;letter-spacing:.16em;text-transform:uppercase}
 header h1{font:italic 500 clamp(20px,3vw,30px)/1 "Cormorant Garamond",serif;color:var(--gold-l)}
-#panel{position:fixed;z-index:5;background:var(--panel);backdrop-filter:blur(10px);border:1px solid #B08D3A55}
-#tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid #B08D3A44}
-#tabs button{flex:none;background:none;border:0;color:#F4F1E8aa;padding:12px 14px;font:600 10.5px Montserrat,sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent}
+#panel{position:fixed;z-index:5;background:var(--panel);backdrop-filter:blur(10px);border:1px solid #B08D3A55;display:flex;flex-direction:column}
+#tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid #B08D3A44;flex:none}
+#tabs button{flex:none;background:none;border:0;color:#F4F1E8aa;padding:12px 12px;font:600 10px Montserrat,sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent}
 #tabs button.on{color:var(--gold-l);border-color:var(--gold)}
-#opts{display:grid;gap:8px;padding:12px;overflow:auto}
-.o{background:#000;border:1px solid #ffffff22;padding:0;cursor:pointer;color:var(--ivory);font:500 10px Montserrat,sans-serif;letter-spacing:.06em;text-align:center;display:flex;flex-direction:column}
+#opts{display:grid;gap:8px;padding:12px;overflow:auto;align-content:start;flex:1;min-height:0}
+.o{background:#000;border:1px solid #ffffff22;padding:0;cursor:pointer;color:var(--ivory);font:500 10px Montserrat,sans-serif;letter-spacing:.05em;text-align:center;display:flex;flex-direction:column;align-self:start}
 .o img{width:100%;aspect-ratio:1;object-fit:cover;display:block;background:#222}
 .o.cut img{object-fit:contain;background:radial-gradient(#3a3226,#15120d)}
-.o span{padding:6px 4px}
+.o span{padding:6px 4px;min-height:28px}
 .o.on{border-color:var(--gold-l);box-shadow:0 0 0 1px var(--gold-l)}
-#extra{display:flex;gap:6px;padding:0 12px 12px;flex-wrap:wrap;align-items:center;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#F4F1E8bb}
-#extra button{background:none;border:1px solid #ffffff33;color:var(--ivory);padding:7px 11px;font:600 10px Montserrat,sans-serif;letter-spacing:.1em;cursor:pointer}
-#extra button.on{border-color:var(--gold-l);color:var(--gold-l)}
-#cta{display:block;margin:0 12px 12px;padding:13px;text-align:center;background:var(--gold);color:#0A0A0A;text-decoration:none;font:600 11px Montserrat,sans-serif;letter-spacing:.16em;text-transform:uppercase}
-#hint{position:fixed;z-index:4;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#F4F1E888;pointer-events:none;transition:opacity .6s}
+.set{grid-column:1/-1;display:grid;gap:8px}
+.set b{font:600 10px Montserrat,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#F4F1E8aa;margin-top:6px}
+.set div{display:flex;gap:8px;flex-wrap:wrap}
+.set button,#act button{background:none;border:1px solid #ffffff33;color:var(--ivory);padding:10px 14px;font:600 11px Montserrat,sans-serif;letter-spacing:.1em;cursor:pointer}
+.set button.on{border-color:var(--gold-l);color:var(--gold-l)}
+#act{display:flex;gap:8px;padding:10px 12px;border-top:1px solid #B08D3A44;flex:none;flex-wrap:wrap}
+#wa{flex:1;min-width:150px;display:block;padding:13px 10px;text-align:center;background:var(--gold);color:#0A0A0A;text-decoration:none;font:600 11px Montserrat,sans-serif;letter-spacing:.12em;text-transform:uppercase}
+#devis{width:100%;text-align:center;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#F4F1E8aa;text-decoration:none}
+#hint{position:absolute;z-index:4;left:0;right:0;bottom:14px;text-align:center;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#F4F1E8aa;pointer-events:none;transition:opacity .6s}
 #load{position:fixed;inset:0;z-index:9;background:var(--ink);display:grid;place-items:center;font:italic 500 26px "Cormorant Garamond",serif;color:var(--gold-l);transition:opacity .6s}
 @media(min-width:821px){
- #panel{top:84px;right:20px;bottom:20px;width:360px;display:flex;flex-direction:column}
- #opts{grid-template-columns:repeat(3,1fr);flex:1}
- #hint{bottom:26px;left:calc(50% - 190px)}
+ #panel{top:84px;right:20px;bottom:20px;width:360px}
+ #opts{grid-template-columns:repeat(3,1fr)}
 }
 @media(max-width:820px){
- #panel{left:0;right:0;bottom:0;max-height:44svh;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0px)}
- #opts{grid-template-columns:repeat(auto-fill,minmax(84px,1fr));flex:1;min-height:0}
- #hint{top:70px}
- #cta{display:none}
+ #stage{bottom:var(--ph)}
+ #panel{left:0;right:0;bottom:0;height:var(--ph);padding-bottom:env(safe-area-inset-bottom,0px)}
+ #opts{grid-template-columns:repeat(auto-fill,minmax(88px,1fr))}
+ #devis{display:none}
+ #act{flex-wrap:nowrap}
 }
 </style></head><body>
 <div id="load">Préparation de la salle…</div>
-<div id="app"></div>
+<div id="stage"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div><div id="vig"></div><div id="hint">Faites glisser pour tourner la table</div></div>
 <header><h1>Composez votre salle</h1><a href="receptions.html">← Réceptions</a></header>
-<div id="hint">Faites glisser pour tourner · pincez pour zoomer</div>
 <section id="panel" aria-label="Options">
  <div id="tabs" role="tablist"></div>
  <div id="opts"></div>
- <div id="extra"></div>
- <a id="cta" href="receptions.html#devis">Demander un devis pour cette composition</a>
+ <div id="act"><a id="wa" target="_blank" rel="noopener">Envoyer sur WhatsApp</a><button id="shot" type="button">Image</button><a id="devis" href="receptions.html#devis">ou demander un devis écrit</a></div>
 </section>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function(){
+const WA_NUMBER=''; // ex. '212600000000' (sans +). Vide = WhatsApp laisse choisir le contact.
 const P='img/salle/',C='img/salle/cut/';
 const CAT=[
  {k:'hall',t:'Salle',cut:false,dir:P,pre:'hall-',o:[['riad-patio','Riad & patio'],['palais-zellige','Palais zellige'],['olive-grove','Oliveraie'],['caidal-tent','Tente caïdale'],['modern-white','Blanc moderne']]},
@@ -67,134 +74,164 @@ const CAT=[
  {k:'light',t:'Luminaire',cut:true,dir:C,pre:'light-',o:[['brass-chandelier','Lustre en laiton'],['crystal-chandelier','Lustre cristal'],['lantern-colored','Lanterne colorée'],['rattan-pendant','Suspension rotin'],['string-globes','Guirlande de globes']]},
  {k:'glass',t:'Verres',cut:true,dir:C,pre:'glass-',o:[['champagne-coupe','Coupe champagne'],['crystal-water','Cristal']]}
 ];
-const S={hall:0,chair:0,cloth:0,plate:0,centre:0,light:0,glass:0,shape:'round',seats:8};
+// where the table stands on the floor of each hall photo: u,v = position in the photo, k = table width as a share of photo height
+const SPOT=[{u:.5,v:.88,k:.62},{u:.5,v:.84,k:.56},{u:.5,v:.84,k:.5},{u:.5,v:.84,k:.5},{u:.5,v:.86,k:.56}];
+const S={hall:0,chair:0,cloth:0,plate:0,centre:0,light:0,glass:0,shape:'round',seats:8,mood:'day'};
 const src=(c,i)=>c.dir+c.pre+c.o[i][0]+'.webp';
+// restore a shared composition from the link
+try{const q=new URLSearchParams(location.hash.slice(1));CAT.forEach(c=>{const v=parseInt(q.get(c.k),10);if(v>=0&&v<c.o.length)S[c.k]=v});
+ if(q.get('shape')==='rect')S.shape='rect';const n=parseInt(q.get('seats'),10);if([6,8,10,12].includes(n))S.seats=n;if(q.get('mood')==='eve')S.mood='eve'}catch(e){}
 
 /* ---------- UI ---------- */
-const tabs=document.getElementById('tabs'),opts=document.getElementById('opts'),extra=document.getElementById('extra');
+const tabs=document.getElementById('tabs'),opts=document.getElementById('opts'),stage=document.getElementById('stage');
 let cur=0;
-function drawTabs(){tabs.innerHTML='';CAT.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c.t;b.className=i===cur?'on':'';b.setAttribute('role','tab');b.onclick=()=>{cur=i;drawTabs();drawOpts()};tabs.appendChild(b)})}
-function drawOpts(){const c=CAT[cur];opts.innerHTML='';c.o.forEach((o,i)=>{const b=document.createElement('button');b.className='o'+(c.cut?' cut':'')+(S[c.k]===i?' on':'');b.innerHTML='<img loading="lazy" alt="" src="'+src(c,i)+'"><span>'+o[1]+'</span>';b.onclick=()=>{S[c.k]=i;drawOpts();update(c.k)};opts.appendChild(b)})}
-function drawExtra(){extra.innerHTML='<span>Table</span>';[['round','Ronde'],['rect','Impériale']].forEach(([v,l])=>{const b=document.createElement('button');b.textContent=l;b.className=S.shape===v?'on':'';b.onclick=()=>{S.shape=v;if(v==='rect'&&S.seats<10)S.seats=10;if(v==='round'&&S.seats>10)S.seats=8;drawExtra();update('table')};extra.appendChild(b)});
- const sp=document.createElement('span');sp.textContent='Convives';sp.style.marginLeft='10px';extra.appendChild(sp);
- (S.shape==='round'?[6,8,10]:[8,10,12]).forEach(n=>{const b=document.createElement('button');b.textContent=n;b.className=S.seats===n?'on':'';b.onclick=()=>{S.seats=n;drawExtra();update('table')};extra.appendChild(b)})}
-drawTabs();drawOpts();drawExtra();
+function drawTabs(){tabs.innerHTML='';[...CAT.map(c=>c.t),'Table'].forEach((t,i)=>{const b=document.createElement('button');b.textContent=t;b.className=i===cur?'on':'';b.setAttribute('role','tab');b.onclick=()=>{cur=i;drawTabs();drawOpts()};tabs.appendChild(b)})}
+function btnRow(items,isOn,fn){const d=document.createElement('div');items.forEach(([v,l])=>{const b=document.createElement('button');b.textContent=l;b.className=isOn(v)?'on':'';b.onclick=()=>{fn(v);drawOpts()};d.appendChild(b)});return d}
+function drawOpts(){
+ opts.innerHTML='';
+ if(cur===CAT.length){
+  const s=document.createElement('div');s.className='set';
+  const h=t=>{const b=document.createElement('b');b.textContent=t;s.appendChild(b)};
+  h('Forme de la table');s.appendChild(btnRow([['round','Ronde'],['rect','Impériale']],v=>S.shape===v,v=>{S.shape=v;S.seats=v==='rect'?10:8;update('table')}));
+  h('Nombre de convives');s.appendChild(btnRow((S.shape==='round'?[6,8,10]:[8,10,12]).map(n=>[n,String(n)]),v=>S.seats===v,v=>{S.seats=v;update('table')}));
+  h('Ambiance');s.appendChild(btnRow([['day','Jour'],['eve','Soirée']],v=>S.mood===v,v=>{S.mood=v;update('mood')}));
+  opts.appendChild(s);return}
+ const c=CAT[cur];
+ c.o.forEach((o,i)=>{const b=document.createElement('button');b.className='o'+(c.cut?' cut':'')+(S[c.k]===i?' on':'');b.innerHTML='<img loading="lazy" alt="" src="'+src(c,i)+'"><span>'+o[1]+'</span>';b.onclick=()=>{S[c.k]=i;drawOpts();update(c.k)};opts.appendChild(b)})}
+drawTabs();drawOpts();
 
-/* ---------- 3D ---------- */
-const host=document.getElementById('app');
-const R=new THREE.WebGLRenderer({antialias:true});
-R.setPixelRatio(Math.min(devicePixelRatio,2));R.outputEncoding=THREE.sRGBEncoding;
-host.appendChild(R.domElement);
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x0a0a0a);
-const cam=new THREE.PerspectiveCamera(42,1,.1,100);
-scene.add(new THREE.HemisphereLight(0xfff1d6,0x2a2218,.75));
-const key=new THREE.DirectionalLight(0xfff0d0,.55);key.position.set(3,6,4);scene.add(key);
-const warm=new THREE.PointLight(0xffc878,.9,12);warm.position.set(0,3.6,0);scene.add(warm);
+/* ---------- background photo ---------- */
+const bgs=[document.getElementById('bgA'),document.getElementById('bgB')];let bgI=0,IW=1376,IH=768;
+function setHall(){
+ const u=src(CAT[0],S.hall),im=new Image();
+ im.onload=()=>{IW=im.naturalWidth;IH=im.naturalHeight;bgI^=1;bgs[bgI].style.backgroundImage='url('+u+')';bgs[bgI].classList.add('on');bgs[bgI^1].classList.remove('on');layout()};
+ im.src=u}
 
+/* ---------- 3D table on top of the photo ---------- */
+const R=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});
+R.setPixelRatio(Math.min(devicePixelRatio,2));R.outputEncoding=THREE.sRGBEncoding;R.setClearColor(0,0);
+stage.insertBefore(R.domElement,document.getElementById('hint'));
+const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(40,1,.1,80);
+const hemi=new THREE.HemisphereLight(0xfff1d6,0x4a3c2a,.9),key=new THREE.DirectionalLight(0xfff0d0,.6),warm=new THREE.PointLight(0xffc878,.9,12);
+key.position.set(3,6,4);warm.position.set(0,3.2,0);scene.add(hemi,key,warm);
 const loader=new THREE.TextureLoader(),cache={};
-function tex(url,cb){if(cache[url]){cb(cache[url]);return}loader.load(url,t=>{t.encoding=THREE.sRGBEncoding;t.anisotropy=4;cache[url]=t;cb(t)},undefined,()=>{})}
+function tex(url,cb){if(cache[url]){cb(cache[url]);return}loader.load(url,t=>{t.encoding=THREE.sRGBEncoding;t.anisotropy=4;cache[url]=t;cb(t)})}
+const rig=new THREE.Group();scene.add(rig);
+const tableG=new THREE.Group(),propsG=new THREE.Group();rig.add(tableG,propsG);
+// soft shadow on the floor
+const sc=document.createElement('canvas');sc.width=sc.height=128;
+{const g=sc.getContext('2d'),r=g.createRadialGradient(64,64,10,64,64,64);r.addColorStop(0,'rgba(0,0,0,.65)');r.addColorStop(.6,'rgba(0,0,0,.35)');r.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=r;g.fillRect(0,0,128,128)}
+const shadow=new THREE.Mesh(new THREE.PlaneGeometry(6.2,6.2),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(sc),transparent:true,depthWrite:false}));
+shadow.rotation.x=-Math.PI/2;shadow.position.y=.004;shadow.renderOrder=-1;rig.add(shadow);
 
-/* backdrop: photo of the chosen hall wrapped around the viewer */
-const back=new THREE.Mesh(new THREE.CylinderGeometry(13,13,14,72,1,true),new THREE.MeshBasicMaterial({side:THREE.BackSide,color:0xbbbbbb}));
-back.position.y=5.2;scene.add(back);
-const floor=new THREE.Mesh(new THREE.CircleGeometry(13,64),new THREE.MeshStandardMaterial({color:0x1a1611,roughness:.55,metalness:.15}));
-floor.rotation.x=-Math.PI/2;scene.add(floor);
-
-const tableG=new THREE.Group(),propsG=new THREE.Group();scene.add(tableG,propsG);
-const TOP=.76;
-const spriteCache={};
+const TOP=.76,tint=()=>S.mood==='eve'?new THREE.Color(.78,.66,.5):new THREE.Color(1,1,1);
 function sprite(url,h,anchorY,pos){
- const m=new THREE.SpriteMaterial({transparent:true,alphaTest:.05});
+ const m=new THREE.SpriteMaterial({transparent:true,alphaTest:.05,color:tint()});
  const s=new THREE.Sprite(m);s.center.set(.5,anchorY);s.scale.set(h,h,1);s.position.copy(pos);
  tex(url,t=>{m.map=t;m.needsUpdate=true});return s}
-function ring(){ // seat positions
+function seats(){
  const out=[],n=S.seats;
  if(S.shape==='round'){for(let i=0;i<n;i++){const a=i/n*Math.PI*2;out.push({x:Math.sin(a),z:Math.cos(a)})}}
  else{const per=n/2,step=(n*.31+.4)/per;for(let i=0;i<per;i++){const x=(i-(per-1)/2)*step;out.push({rx:x,side:1});out.push({rx:x,side:-1})}}
  return out}
+function clear(g){while(g.children.length)g.remove(g.children[0])}
 function build(which){
  const all=!which;
- if(all||which==='hall'||which==='cloth'||which==='table'||which==='plate'||which==='glass'||which==='chair'||which==='centre'||which==='light'){}
- if(all||which==='hall'){const c=CAT[0];tex(src(c,S.hall),t=>{const t2=t.clone();t2.needsUpdate=true;t2.wrapS=THREE.MirroredRepeatWrapping;t2.repeat.set(3,1);back.material.map=t2;back.material.needsUpdate=true})}
  if(all||['table','cloth'].includes(which)){
-  while(tableG.children.length)tableG.remove(tableG.children[0]);
-  const c=CAT[2];
-  tex(src(c,S.cloth),t=>{
+  tex(src(CAT[2],S.cloth),t=>{
    const mk=(rx,ry)=>{const x=t.clone();x.needsUpdate=true;x.wrapS=x.wrapT=THREE.RepeatWrapping;x.repeat.set(rx,ry);return new THREE.MeshStandardMaterial({map:x,roughness:.8,metalness:.02})};
-   while(tableG.children.length)tableG.remove(tableG.children[0]);
+   clear(tableG);
    if(S.shape==='round'){
     const top=new THREE.Mesh(new THREE.CylinderGeometry(1.2,1.2,.03,64),mk(1,1));top.position.y=TOP;
     const drape=new THREE.Mesh(new THREE.CylinderGeometry(1.23,1.45,TOP,64,1,true),mk(3,1));drape.position.y=TOP/2;
-    tableG.add(top,drape);
+    tableG.add(top,drape);shadow.scale.set(1,1,1);
    }else{
     const w=S.seats*.31+.9;
     const top=new THREE.Mesh(new THREE.BoxGeometry(w,.03,1.3),mk(2,1));top.position.y=TOP;
     const drape=new THREE.Mesh(new THREE.BoxGeometry(w+.1,TOP,1.4),mk(3,1));drape.position.y=TOP/2-.01;
-    tableG.add(top,drape);
+    tableG.add(top,drape);shadow.scale.set((w+2)/6.2,.62,1);
    }
   });
  }
  if(all||['table','plate','glass','chair','centre','light'].includes(which)){
-  while(propsG.children.length)propsG.remove(propsG.children[0]);
-  const seats=ring(),rnd=S.shape==='round',w=S.seats*.31+.9;
-  seats.forEach(p=>{
+  clear(propsG);
+  const rnd=S.shape==='round';
+  seats().forEach(p=>{
    let sx,sz,px,pz;
    if(rnd){sx=p.x*1.95;sz=p.z*1.95;px=p.x*.82;pz=p.z*.82}
    else{sx=px=p.rx;sz=p.side*1.2;pz=p.side*.42}
-   // chair
-   const ch=sprite(src(CAT[1],S.chair),1.15,0,new THREE.Vector3(sx,0,sz));propsG.add(ch);
-   // plate (flat)
-   const pm=new THREE.MeshBasicMaterial({transparent:true,alphaTest:.05});
+   propsG.add(sprite(src(CAT[1],S.chair),1.15,0,new THREE.Vector3(sx,0,sz)));
+   const pm=new THREE.MeshBasicMaterial({transparent:true,alphaTest:.05,color:tint()});
    const pl=new THREE.Mesh(new THREE.PlaneGeometry(.36,.36),pm);pl.rotation.x=-Math.PI/2;pl.position.set(px,TOP+.02,pz);
    tex(src(CAT[3],S.plate),t=>{pm.map=t;pm.needsUpdate=true});propsG.add(pl);
-   // glass
    const gx=px+(rnd?p.z*.2:.2),gz=pz+(rnd?-p.x*.2:0);
    propsG.add(sprite(src(CAT[6],S.glass),.26,0,new THREE.Vector3(gx,TOP+.02,gz)));
   });
   propsG.add(sprite(src(CAT[4],S.centre),.8,0,new THREE.Vector3(0,TOP+.02,0)));
-  const L=sprite(src(CAT[5],S.light),2.1,1,new THREE.Vector3(0,4.3,0));propsG.add(L);
-  const rope=new THREE.Mesh(new THREE.CylinderGeometry(.008,.008,3,6),new THREE.MeshBasicMaterial({color:0x8a7a52}));rope.position.set(0,5.8,0);propsG.add(rope);
+  propsG.add(sprite(src(CAT[5],S.light),1.7,1,new THREE.Vector3(0,3.9,0)));
+  const rope=new THREE.Mesh(new THREE.CylinderGeometry(.008,.008,1.8,6),new THREE.MeshBasicMaterial({color:0x8a7a52}));rope.position.set(0,4.8,0);propsG.add(rope);
  }
+ if(all||which==='mood')mood();
 }
-function update(w){build(w)}
-build();
+function mood(){
+ const e=S.mood==='eve';stage.classList.toggle('eve',e);
+ hemi.intensity=e?.5:.9;key.intensity=e?.3:.6;warm.intensity=e?1.8:.7;
+ const c=tint();propsG.children.forEach(o=>{if(o.material&&o.material.color)o.material.color.copy(c)});
+ save()}
+function update(w){if(w==='hall'){setHall();save();return}build(w);if(w!=='mood')save()}
+function label(k){const c=CAT.find(x=>x.k===k);return c.o[S[k]][1]}
+function save(){
+ const q=new URLSearchParams();CAT.forEach(c=>q.set(c.k,S[c.k]));q.set('shape',S.shape);q.set('seats',S.seats);q.set('mood',S.mood);
+ try{history.replaceState(null,'','#'+q)}catch(e){}
+ const t="Bonjour Gaston Gali, voici la composition que j'ai imaginée :\n• Salle : "+label('hall')+"\n• Table : "+(S.shape==='round'?'ronde':'impériale')+", "+S.seats+" convives\n• Chaises : "+label('chair')+"\n• Nappe : "+label('cloth')+"\n• Assiettes : "+label('plate')+"\n• Centre de table : "+label('centre')+"\n• Luminaire : "+label('light')+"\n• Verres : "+label('glass')+"\n\nVoir la composition : "+location.href;
+ document.getElementById('wa').href='https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(t)}
 
-/* ---------- camera orbit (drag / pinch / wheel) ---------- */
-let az=.6,pol=1.12,dist=7,tAz=az,tPol=pol,tDist=dist,auto=true,idle=0;
-const pts=new Map();let lastPinch=0;
-const el=R.domElement;
-el.addEventListener('pointerdown',e=>{el.setPointerCapture(e.pointerId);pts.set(e.pointerId,{x:e.clientX,y:e.clientY});auto=false;idle=0;hint(0)});
-el.addEventListener('pointermove',e=>{
+/* ---------- camera: fixed, table sits on the floor of the photo ---------- */
+let el=.38,userScale=1,tRot=.5,auto=true,idle=0;
+function layout(){
+ const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;
+ R.setSize(w,h);cam.aspect=w/h;
+ const f=Math.max(w/IW,h/IH),pw=IW*f,ph=IH*f,sp=SPOT[S.hall];
+ const Px=(w-pw)/2+sp.u*pw,Py=(h-ph)/2+sp.v*ph;
+ const ppu=sp.k*ph/4.6*userScale,d=(h/2)/(Math.tan(cam.fov*Math.PI/360)*ppu);
+ cam.position.set(0,.5+d*Math.sin(el),d*Math.cos(el));cam.lookAt(0,.5,0);
+ cam.clearViewOffset();cam.updateProjectionMatrix();cam.updateMatrixWorld();
+ const v=new THREE.Vector3(0,0,0).project(cam),cx=(v.x+1)/2*w,cy=(1-v.y)/2*h;
+ cam.setViewOffset(w,h,cx-Px,cy-Py,w,h);cam.updateProjectionMatrix()}
+addEventListener('resize',layout);
+
+const pts=new Map();let lastPinch=0;const dom=R.domElement;
+dom.addEventListener('pointerdown',e=>{dom.setPointerCapture(e.pointerId);pts.set(e.pointerId,{x:e.clientX,y:e.clientY});auto=false;idle=0;document.getElementById('hint').style.opacity=0});
+dom.addEventListener('pointermove',e=>{
  if(!pts.has(e.pointerId))return;const p=pts.get(e.pointerId);
- if(pts.size===1){tAz-=(e.clientX-p.x)*.006;tPol=Math.min(1.45,Math.max(.55,tPol-(e.clientY-p.y)*.005))}
- else if(pts.size===2){const o=[...pts.entries()].find(([id])=>id!==e.pointerId)[1];const d=Math.hypot(e.clientX-o.x,e.clientY-o.y);if(lastPinch)tDist=Math.min(11,Math.max(3.5,tDist-(d-lastPinch)*.02));lastPinch=d}
+ if(pts.size===1){tRot+=(e.clientX-p.x)*.008;el=Math.min(.7,Math.max(.2,el+(e.clientY-p.y)*.002));layout()}
+ else if(pts.size===2){const o=[...pts.entries()].find(([id])=>id!==e.pointerId)[1],d=Math.hypot(e.clientX-o.x,e.clientY-o.y);if(lastPinch){userScale=Math.min(1.4,Math.max(.75,userScale+(d-lastPinch)*.004));layout()}lastPinch=d}
  p.x=e.clientX;p.y=e.clientY});
-const up=e=>{pts.delete(e.pointerId);lastPinch=0};
-el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up);
-el.addEventListener('wheel',e=>{e.preventDefault();tDist=Math.min(11,Math.max(3.5,tDist+e.deltaY*.005));auto=false;idle=0},{passive:false});
-function hint(o){const h=document.getElementById('hint');if(h)h.style.opacity=o}
-
-function size(){
- const w=host.clientWidth,h=host.clientHeight;R.setSize(w,h);cam.aspect=w/h;
- const mob=innerWidth<=820;cam.fov=mob?58:42;
- cam.setViewOffset(w,h,0,mob?h*.12:0,w,h);
- if(!mob)cam.setViewOffset(w,h,w*.1,0,w,h); // keep table clear of the side panel
- cam.updateProjectionMatrix()}
-addEventListener('resize',size);size();
+const up=e=>{pts.delete(e.pointerId);lastPinch=0};dom.addEventListener('pointerup',up);dom.addEventListener('pointercancel',up);
+dom.addEventListener('wheel',e=>{e.preventDefault();userScale=Math.min(1.4,Math.max(.75,userScale-e.deltaY*.001));layout();auto=false;idle=0},{passive:false});
 
 const clock=new THREE.Clock();
 function frame(){
  const dt=clock.getDelta();
- if(auto)tAz+=dt*.12;else{idle+=dt;if(idle>6)auto=true}
- az+=(tAz-az)*.08;pol+=(tPol-pol)*.08;dist+=(tDist-dist)*.08;
- const tgt=new THREE.Vector3(0,1.1,0);
- cam.position.set(tgt.x+dist*Math.sin(pol)*Math.sin(az),tgt.y+dist*Math.cos(pol),tgt.z+dist*Math.sin(pol)*Math.cos(az));
- cam.lookAt(tgt);R.render(scene,cam);requestAnimationFrame(frame)}
-frame();
-setTimeout(()=>{const l=document.getElementById('load');l.style.opacity=0;setTimeout(()=>l.remove(),700);setTimeout(()=>hint(0),7000)},900);
-hint(1);
-// warm the cache with the rest of the options in the background
-setTimeout(()=>CAT.forEach(c=>c.o.forEach((_,i)=>{const u=src(c,i);if(!cache[u])tex(u,()=>{})})),2500);
+ if(auto)tRot+=dt*.18;else{idle+=dt;if(idle>6)auto=true}
+ rig.rotation.y+=(tRot-rig.rotation.y)*.1;
+ R.render(scene,cam);requestAnimationFrame(frame)}
+
+/* ---------- save image ---------- */
+document.getElementById('shot').onclick=()=>{
+ const w=stage.clientWidth,h=stage.clientHeight,c=document.createElement('canvas');c.width=w*2;c.height=h*2;
+ const g=c.getContext('2d'),im=new Image();
+ im.onload=()=>{const f=Math.max(c.width/IW,c.height/IH),pw=IW*f,ph=IH*f;
+  g.drawImage(im,(c.width-pw)/2,(c.height-ph)/2,pw,ph);
+  if(S.mood==='eve'){g.fillStyle='rgba(20,10,0,.5)';g.fillRect(0,0,c.width,c.height)}
+  R.render(scene,cam);g.drawImage(R.domElement,0,0,c.width,c.height);
+  g.fillStyle='#D4B25E';g.font='italic 500 '+Math.round(c.width*.03)+'px Georgia,serif';g.fillText('Gaston Gali',c.width*.03,c.height*.07);
+  const a=document.createElement('a');a.download='gaston-gali-composition.png';a.href=c.toDataURL('image/png');a.click()};
+ im.src=src(CAT[0],S.hall)};
+
+build();setHall();mood();layout();frame();
+setTimeout(()=>{const l=document.getElementById('load');l.style.opacity=0;setTimeout(()=>l.remove(),700);setTimeout(()=>{document.getElementById('hint').style.opacity=0},7000)},900);
+setTimeout(()=>CAT.forEach(c=>c.o.forEach((_,i)=>{const u=src(c,i);if(!cache[u]&&c.k!=='hall')tex(u,()=>{})})),2500);
 })();
 </script>
 </body></html>
