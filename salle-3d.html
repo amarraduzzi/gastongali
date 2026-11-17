@@ -38,7 +38,15 @@ header h1{font:italic 500 clamp(20px,3vw,30px)/1 "Cormorant Garamond",serif;colo
 #wa{flex:1;min-width:150px;display:block;padding:13px 10px;text-align:center;background:var(--gold);color:#0A0A0A;text-decoration:none;font:600 11px Montserrat,sans-serif;letter-spacing:.12em;text-transform:uppercase}
 #devis{width:100%;text-align:center;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#F4F1E8aa;text-decoration:none}
 #hint{position:absolute;z-index:4;left:0;right:0;bottom:14px;text-align:center;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#F4F1E8aa;pointer-events:none;transition:opacity .6s}
-#load{position:fixed;inset:0;z-index:9;background:var(--ink);display:grid;place-items:center;font:italic 500 26px "Cormorant Garamond",serif;color:var(--gold-l);transition:opacity .6s}
+#load{position:fixed;inset:0;z-index:200;background:var(--ink);display:grid;place-items:center;transition:opacity 1s,visibility 1s}
+#load.done{opacity:0;visibility:hidden}
+#load img{width:min(62vw,400px);clip-path:inset(0 100% 0 0);animation:write 1.6s cubic-bezier(.6,.1,.3,1) .2s forwards}
+#load i{position:absolute;bottom:18%;font:italic 500 clamp(22px,4vw,34px)/1 "Cormorant Garamond",serif;letter-spacing:.04em;color:var(--gold-l);opacity:0;animation:fadein .9s 1.2s forwards}
+@keyframes write{to{clip-path:inset(0 0 0 0)}}
+@keyframes fadein{to{opacity:1}}
+.logo{pointer-events:auto;display:block}.logo img{display:block;width:108px;height:32px}
+header h1{position:absolute;left:0;right:0;text-align:center;pointer-events:none}
+@media(max-width:700px){header h1{display:none}}
 @media(min-width:821px){
  #panel{top:84px;right:20px;bottom:20px;width:360px}
  #opts{grid-template-columns:repeat(3,1fr)}
@@ -51,9 +59,9 @@ header h1{font:italic 500 clamp(20px,3vw,30px)/1 "Cormorant Garamond",serif;colo
  #act{flex-wrap:nowrap}
 }
 </style></head><body>
-<div id="load">Préparation de la salle…</div>
+<div id="load" aria-hidden="true"><img src="img/logo-light.svg" alt=""><i>Composez votre salle</i></div>
 <div id="stage"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div><div id="vig"></div><div id="hint">Faites glisser pour tourner la table</div></div>
-<header><h1>Composez votre salle</h1><a href="receptions.html">← Réceptions</a></header>
+<header><a class="logo" href="/" aria-label="Gaston Gali, accueil"><img src="img/logo-light.svg" alt="Gaston Gali" width="108" height="32"></a><h1>Composez votre salle</h1><a href="receptions.html">← Réceptions</a></header>
 <section id="panel" aria-label="Options">
  <div id="tabs" role="tablist"></div>
  <div id="opts"></div>
@@ -63,7 +71,7 @@ header h1{font:italic 500 clamp(20px,3vw,30px)/1 "Cormorant Garamond",serif;colo
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function(){
-const WA_NUMBER=''; // ex. '212600000000' (sans +). Vide = WhatsApp laisse choisir le contact.
+const WA_NUMBER='212661392231'; // ex. '212600000000' (sans +). Vide = WhatsApp laisse choisir le contact.
 const P='img/salle/',C='img/salle/cut/';
 const CAT=[
  {k:'hall',t:'Salle',cut:false,dir:P,pre:'hall-',o:[['riad-patio','Riad & patio'],['palais-zellige','Palais zellige'],['olive-grove','Oliveraie'],['caidal-tent','Tente caïdale'],['modern-white','Blanc moderne']]},
@@ -230,7 +238,7 @@ document.getElementById('shot').onclick=()=>{
  im.src=src(CAT[0],S.hall)};
 
 build();setHall();mood();layout();frame();
-setTimeout(()=>{const l=document.getElementById('load');l.style.opacity=0;setTimeout(()=>l.remove(),700);setTimeout(()=>{document.getElementById('hint').style.opacity=0},7000)},900);
+setTimeout(()=>{document.getElementById('load').classList.add('done');setTimeout(()=>{document.getElementById('hint').style.opacity=0},7000)},2800);
 setTimeout(()=>CAT.forEach(c=>c.o.forEach((_,i)=>{const u=src(c,i);if(!cache[u]&&c.k!=='hall')tex(u,()=>{})})),2500);
 })();
 </script>
